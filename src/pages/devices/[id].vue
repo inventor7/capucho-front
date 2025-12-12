@@ -18,11 +18,11 @@
       </div>
       <div class="flex items-center gap-2">
         <Button variant="outline" size="sm">
-          <RotateCw class="mr-2 h-4 w-4" />
+          <ILucideRefreshCcw class="mr-2 h-4 w-4" />
           Sync
         </Button>
         <Button variant="destructive" size="sm">
-          <Trash2 class="mr-2 h-4 w-4" />
+          <ILucideTrash2 class="mr-2 h-4 w-4" />
           Delete
         </Button>
       </div>
@@ -139,11 +139,10 @@
           </CardContent>
         </Card>
 
-        <Card class="border-blue-100">
-          <CardTitle>Device Status</CardTitle>
+        <Card>
           <CardContent>
-            <div class="flex items-center gap-20">
-              <Activity class="h-5 w-5" />
+            <div class="flex items-center gap-2">
+              <ILucideActivity class="h-5 w-5 animate-pulse text-green-600" />
               <span class="font-medium">Healthy</span>
             </div>
             <p class="text-xs mt-2">Device is communicating regularly with the server.</p>
