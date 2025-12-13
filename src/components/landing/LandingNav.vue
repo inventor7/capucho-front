@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Menu, X, Moon, Sun } from 'lucide-vue-next'
-import { cn } from '@/lib/utils'
 
 const router = useRouter()
 const isScrolled = ref(false)
@@ -59,7 +58,7 @@ const scrollToSection = (href: string) => {
         <div
           class="shadow-primary/20 flex group-hover:rotate-12 transition-transform duration-300 w-8 h-8 rounded-xl shadow-lg rotate-3 items-center justify-center overflow-hidden"
         >
-          <img src="/capucho.png" alt="Capucho Logo" class="w-10 h-10 object-cover" />
+          <img src="/assets/capucho.png" alt="Capucho Logo" class="w-10 h-10 object-cover" />
         </div>
         <span class="text-lg font-bold tracking-tight">Capucho</span>
       </a>
