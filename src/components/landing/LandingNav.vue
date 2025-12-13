@@ -59,9 +59,9 @@ const scrollToSection = (href: string) => {
         <div
           class="shadow-primary/20 flex group-hover:rotate-12 transition-transform duration-300 w-8 h-8 rounded-xl shadow-lg rotate-3 items-center justify-center overflow-hidden"
         >
-          <img src="/capgo.webp" alt="Invogo Logo" class="w-10 h-10 object-cover" />
+          <img src="/capucho.png" alt="Capucho Logo" class="w-10 h-10 object-cover" />
         </div>
-        <span class="text-lg font-bold tracking-tight">Invogo</span>
+        <span class="text-lg font-bold tracking-tight">Capucho</span>
       </a>
 
       <!-- Desktop Nav (Static) - Hides when scrolled to avoid duplication if we want smooth transition, but user wants it to "stay at top". -->
