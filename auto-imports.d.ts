@@ -105,16 +105,36 @@ declare global {
   const Kbd: typeof import('./src/components/ui/kbd/index').Kbd
   const KbdGroup: typeof import('./src/components/ui/kbd/index').KbdGroup
   const Label: typeof import('./src/components/ui/label/index').Label
+  const NativeSelect: typeof import('./src/components/ui/native-select/index').NativeSelect
+  const NativeSelectOptGroup: typeof import('./src/components/ui/native-select/index').NativeSelectOptGroup
+  const NativeSelectOption: typeof import('./src/components/ui/native-select/index').NativeSelectOption
+  const Popover: typeof import('./src/components/ui/popover/index').Popover
+  const PopoverAnchor: typeof import('./src/components/ui/popover/index').PopoverAnchor
+  const PopoverContent: typeof import('./src/components/ui/popover/index').PopoverContent
+  const PopoverTrigger: typeof import('./src/components/ui/popover/index').PopoverTrigger
   const Progress: typeof import('./src/components/ui/progress/index').Progress
   const QueryError: typeof import('./src/composables/api/error/query-error-handler').QueryError
   const RadioGroup: typeof import('./src/components/ui/radio-group/index').RadioGroup
   const RadioGroupItem: typeof import('./src/components/ui/radio-group/index').RadioGroupItem
+  const RangeCalendar: typeof import('./src/components/ui/range-calendar/index').RangeCalendar
+  const RangeCalendarCell: typeof import('./src/components/ui/range-calendar/index').RangeCalendarCell
+  const RangeCalendarCellTrigger: typeof import('./src/components/ui/range-calendar/index').RangeCalendarCellTrigger
+  const RangeCalendarGrid: typeof import('./src/components/ui/range-calendar/index').RangeCalendarGrid
+  const RangeCalendarGridBody: typeof import('./src/components/ui/range-calendar/index').RangeCalendarGridBody
+  const RangeCalendarGridHead: typeof import('./src/components/ui/range-calendar/index').RangeCalendarGridHead
+  const RangeCalendarGridRow: typeof import('./src/components/ui/range-calendar/index').RangeCalendarGridRow
+  const RangeCalendarHeadCell: typeof import('./src/components/ui/range-calendar/index').RangeCalendarHeadCell
+  const RangeCalendarHeader: typeof import('./src/components/ui/range-calendar/index').RangeCalendarHeader
+  const RangeCalendarHeading: typeof import('./src/components/ui/range-calendar/index').RangeCalendarHeading
+  const RangeCalendarNextButton: typeof import('./src/components/ui/range-calendar/index').RangeCalendarNextButton
+  const RangeCalendarPrevButton: typeof import('./src/components/ui/range-calendar/index').RangeCalendarPrevButton
   const SIDEBAR_COOKIE_MAX_AGE: typeof import('./src/components/ui/sidebar/utils').SIDEBAR_COOKIE_MAX_AGE
   const SIDEBAR_COOKIE_NAME: typeof import('./src/components/ui/sidebar/utils').SIDEBAR_COOKIE_NAME
   const SIDEBAR_KEYBOARD_SHORTCUT: typeof import('./src/components/ui/sidebar/utils').SIDEBAR_KEYBOARD_SHORTCUT
   const SIDEBAR_WIDTH: typeof import('./src/components/ui/sidebar/utils').SIDEBAR_WIDTH
   const SIDEBAR_WIDTH_ICON: typeof import('./src/components/ui/sidebar/utils').SIDEBAR_WIDTH_ICON
   const SIDEBAR_WIDTH_MOBILE: typeof import('./src/components/ui/sidebar/utils').SIDEBAR_WIDTH_MOBILE
+  const ScrollStackItem: typeof import('./src/components/vuebits/ScrollStack.vue').ScrollStackItem
   const Select: typeof import('./src/components/ui/select/index').Select
   const SelectContent: typeof import('./src/components/ui/select/index').SelectContent
   const SelectGroup: typeof import('./src/components/ui/select/index').SelectGroup
@@ -359,6 +379,9 @@ declare global {
   const useApiFormDataMutation: typeof import('./src/composables/api/config/useApiFormDataMutation').useApiFormDataMutation
   const useApiMutation: typeof import('./src/composables/api/config/useApiQuery').useApiMutation
   const useApiQuery: typeof import('./src/composables/api/config/useApiQuery').useApiQuery
+  const useAppQuery: typeof import('./src/modules/apps/composables/useAppsQuery').useAppQuery
+  const useAppStore: typeof import('./src/stores/app.store').useAppStore
+  const useAppsQuery: typeof import('./src/modules/apps/composables/useAppsQuery').useAppsQuery
   const useArrayDifference: typeof import('@vueuse/core').useArrayDifference
   const useArrayEvery: typeof import('@vueuse/core').useArrayEvery
   const useArrayFilter: typeof import('@vueuse/core').useArrayFilter
@@ -400,6 +423,7 @@ declare global {
   const useCountdown: typeof import('@vueuse/core').useCountdown
   const useCounter: typeof import('@vueuse/core').useCounter
   const useCounterStore: typeof import('./src/stores/counter').useCounterStore
+  const useCreateAppMutation: typeof import('./src/modules/apps/composables/useAppsQuery').useCreateAppMutation
   const useCreateBundleFormDataMutation: typeof import('./src/modules/updates-bundles/composables/useUpdatesBundlesQuery').useCreateBundleFormDataMutation
   const useCreateBundleMutation: typeof import('./src/modules/updates-bundles/index').useCreateBundleMutation
   const useCreateConversationMutation: typeof import('./src/composables/api/conversations/useConversationsQuery').useCreateConversationMutation
@@ -420,6 +444,7 @@ declare global {
   const useDebounce: typeof import('@vueuse/core').useDebounce
   const useDebounceFn: typeof import('@vueuse/core').useDebounceFn
   const useDebouncedRefHistory: typeof import('@vueuse/core').useDebouncedRefHistory
+  const useDeleteAppMutation: typeof import('./src/modules/apps/composables/useAppsQuery').useDeleteAppMutation
   const useDeleteBundleMutation: typeof import('./src/modules/updates-bundles/index').useDeleteBundleMutation
   const useDeleteChannelMutation: typeof import('./src/modules/channels/index').useDeleteChannelMutation
   const useDeleteConversationMutation: typeof import('./src/composables/api/conversations/useConversationsQuery').useDeleteConversationMutation
@@ -565,9 +590,11 @@ declare global {
   const useToast: typeof import('./src/composables/useToast').useToast
   const useToggle: typeof import('@vueuse/core').useToggle
   const useTransition: typeof import('@vueuse/core').useTransition
+  const useUpdateAppMutation: typeof import('./src/modules/apps/composables/useAppsQuery').useUpdateAppMutation
   const useUpdateBundleMutation: typeof import('./src/modules/updates-bundles/index').useUpdateBundleMutation
   const useUpdateConversationMutation: typeof import('./src/composables/api/conversations/useConversationsQuery').useUpdateConversationMutation
   const useUpdateDeviceChannelMutation: typeof import('./src/modules/devices/index').useUpdateDeviceChannelMutation
+  const useUpdateLogsQuery: typeof import('./src/modules/update-logs/composables/useUpdateLogsQuery').useUpdateLogsQuery
   const useUpdateMessageMutation: typeof import('./src/composables/api/conversations/useMessagesQuery').useUpdateMessageMutation
   const useUpdateNativeUpdateMutation: typeof import('./src/modules/updates-bundles/index').useUpdateNativeUpdateMutation
   const useUpdateOrderMutation: typeof import('./src/composables/api/orders/useOrdersQuery').useUpdateOrderMutation
@@ -657,6 +684,9 @@ declare global {
   export type { SidebarProps, SidebarMenuButtonVariants } from './src/components/ui/sidebar/index'
   import('./src/components/ui/sidebar/index')
   // @ts-ignore
+  export type { App, CreateAppInput, UpdateAppInput } from './src/modules/apps/types/apps.types'
+  import('./src/modules/apps/types/apps.types')
+  // @ts-ignore
   export type { Channel } from './src/modules/channels/types/channels.types'
   import('./src/modules/channels/types/channels.types')
   // @ts-ignore
@@ -668,6 +698,9 @@ declare global {
   // @ts-ignore
   export type { DashboardStats, StatsDataPoint, DashboardStatsData } from './src/modules/statistics/types/statistics.types'
   import('./src/modules/statistics/types/statistics.types')
+  // @ts-ignore
+  export type { UpdateLog } from './src/modules/update-logs/types/update-logs.types'
+  import('./src/modules/update-logs/types/update-logs.types')
   // @ts-ignore
   export type { DataTableConfig } from './src/modules/updates-bundles/composables/useUpdatesBundlesDataTable'
   import('./src/modules/updates-bundles/composables/useUpdatesBundlesDataTable')
@@ -783,16 +816,36 @@ declare module 'vue' {
     readonly Kbd: UnwrapRef<typeof import('./src/components/ui/kbd/index')['Kbd']>
     readonly KbdGroup: UnwrapRef<typeof import('./src/components/ui/kbd/index')['KbdGroup']>
     readonly Label: UnwrapRef<typeof import('./src/components/ui/label/index')['Label']>
+    readonly NativeSelect: UnwrapRef<typeof import('./src/components/ui/native-select/index')['NativeSelect']>
+    readonly NativeSelectOptGroup: UnwrapRef<typeof import('./src/components/ui/native-select/index')['NativeSelectOptGroup']>
+    readonly NativeSelectOption: UnwrapRef<typeof import('./src/components/ui/native-select/index')['NativeSelectOption']>
+    readonly Popover: UnwrapRef<typeof import('./src/components/ui/popover/index')['Popover']>
+    readonly PopoverAnchor: UnwrapRef<typeof import('./src/components/ui/popover/index')['PopoverAnchor']>
+    readonly PopoverContent: UnwrapRef<typeof import('./src/components/ui/popover/index')['PopoverContent']>
+    readonly PopoverTrigger: UnwrapRef<typeof import('./src/components/ui/popover/index')['PopoverTrigger']>
     readonly Progress: UnwrapRef<typeof import('./src/components/ui/progress/index')['Progress']>
     readonly QueryError: UnwrapRef<typeof import('./src/composables/api/error/query-error-handler')['QueryError']>
     readonly RadioGroup: UnwrapRef<typeof import('./src/components/ui/radio-group/index')['RadioGroup']>
     readonly RadioGroupItem: UnwrapRef<typeof import('./src/components/ui/radio-group/index')['RadioGroupItem']>
+    readonly RangeCalendar: UnwrapRef<typeof import('./src/components/ui/range-calendar/index')['RangeCalendar']>
+    readonly RangeCalendarCell: UnwrapRef<typeof import('./src/components/ui/range-calendar/index')['RangeCalendarCell']>
+    readonly RangeCalendarCellTrigger: UnwrapRef<typeof import('./src/components/ui/range-calendar/index')['RangeCalendarCellTrigger']>
+    readonly RangeCalendarGrid: UnwrapRef<typeof import('./src/components/ui/range-calendar/index')['RangeCalendarGrid']>
+    readonly RangeCalendarGridBody: UnwrapRef<typeof import('./src/components/ui/range-calendar/index')['RangeCalendarGridBody']>
+    readonly RangeCalendarGridHead: UnwrapRef<typeof import('./src/components/ui/range-calendar/index')['RangeCalendarGridHead']>
+    readonly RangeCalendarGridRow: UnwrapRef<typeof import('./src/components/ui/range-calendar/index')['RangeCalendarGridRow']>
+    readonly RangeCalendarHeadCell: UnwrapRef<typeof import('./src/components/ui/range-calendar/index')['RangeCalendarHeadCell']>
+    readonly RangeCalendarHeader: UnwrapRef<typeof import('./src/components/ui/range-calendar/index')['RangeCalendarHeader']>
+    readonly RangeCalendarHeading: UnwrapRef<typeof import('./src/components/ui/range-calendar/index')['RangeCalendarHeading']>
+    readonly RangeCalendarNextButton: UnwrapRef<typeof import('./src/components/ui/range-calendar/index')['RangeCalendarNextButton']>
+    readonly RangeCalendarPrevButton: UnwrapRef<typeof import('./src/components/ui/range-calendar/index')['RangeCalendarPrevButton']>
     readonly SIDEBAR_COOKIE_MAX_AGE: UnwrapRef<typeof import('./src/components/ui/sidebar/utils')['SIDEBAR_COOKIE_MAX_AGE']>
     readonly SIDEBAR_COOKIE_NAME: UnwrapRef<typeof import('./src/components/ui/sidebar/utils')['SIDEBAR_COOKIE_NAME']>
     readonly SIDEBAR_KEYBOARD_SHORTCUT: UnwrapRef<typeof import('./src/components/ui/sidebar/utils')['SIDEBAR_KEYBOARD_SHORTCUT']>
     readonly SIDEBAR_WIDTH: UnwrapRef<typeof import('./src/components/ui/sidebar/utils')['SIDEBAR_WIDTH']>
     readonly SIDEBAR_WIDTH_ICON: UnwrapRef<typeof import('./src/components/ui/sidebar/utils')['SIDEBAR_WIDTH_ICON']>
     readonly SIDEBAR_WIDTH_MOBILE: UnwrapRef<typeof import('./src/components/ui/sidebar/utils')['SIDEBAR_WIDTH_MOBILE']>
+    readonly ScrollStackItem: UnwrapRef<typeof import('./src/components/vuebits/ScrollStack.vue')['ScrollStackItem']>
     readonly Select: UnwrapRef<typeof import('./src/components/ui/select/index')['Select']>
     readonly SelectContent: UnwrapRef<typeof import('./src/components/ui/select/index')['SelectContent']>
     readonly SelectGroup: UnwrapRef<typeof import('./src/components/ui/select/index')['SelectGroup']>
@@ -1033,6 +1086,9 @@ declare module 'vue' {
     readonly useApiFormDataMutation: UnwrapRef<typeof import('./src/composables/api/config/useApiFormDataMutation')['useApiFormDataMutation']>
     readonly useApiMutation: UnwrapRef<typeof import('./src/composables/api/config/useApiQuery')['useApiMutation']>
     readonly useApiQuery: UnwrapRef<typeof import('./src/composables/api/config/useApiQuery')['useApiQuery']>
+    readonly useAppQuery: UnwrapRef<typeof import('./src/modules/apps/composables/useAppsQuery')['useAppQuery']>
+    readonly useAppStore: UnwrapRef<typeof import('./src/stores/app.store')['useAppStore']>
+    readonly useAppsQuery: UnwrapRef<typeof import('./src/modules/apps/composables/useAppsQuery')['useAppsQuery']>
     readonly useArrayDifference: UnwrapRef<typeof import('@vueuse/core')['useArrayDifference']>
     readonly useArrayEvery: UnwrapRef<typeof import('@vueuse/core')['useArrayEvery']>
     readonly useArrayFilter: UnwrapRef<typeof import('@vueuse/core')['useArrayFilter']>
@@ -1074,6 +1130,7 @@ declare module 'vue' {
     readonly useCountdown: UnwrapRef<typeof import('@vueuse/core')['useCountdown']>
     readonly useCounter: UnwrapRef<typeof import('@vueuse/core')['useCounter']>
     readonly useCounterStore: UnwrapRef<typeof import('./src/stores/counter')['useCounterStore']>
+    readonly useCreateAppMutation: UnwrapRef<typeof import('./src/modules/apps/composables/useAppsQuery')['useCreateAppMutation']>
     readonly useCreateBundleFormDataMutation: UnwrapRef<typeof import('./src/modules/updates-bundles/composables/useUpdatesBundlesQuery')['useCreateBundleFormDataMutation']>
     readonly useCreateBundleMutation: UnwrapRef<typeof import('./src/modules/updates-bundles/index')['useCreateBundleMutation']>
     readonly useCreateConversationMutation: UnwrapRef<typeof import('./src/composables/api/conversations/useConversationsQuery')['useCreateConversationMutation']>
@@ -1094,6 +1151,7 @@ declare module 'vue' {
     readonly useDebounce: UnwrapRef<typeof import('@vueuse/core')['useDebounce']>
     readonly useDebounceFn: UnwrapRef<typeof import('@vueuse/core')['useDebounceFn']>
     readonly useDebouncedRefHistory: UnwrapRef<typeof import('@vueuse/core')['useDebouncedRefHistory']>
+    readonly useDeleteAppMutation: UnwrapRef<typeof import('./src/modules/apps/composables/useAppsQuery')['useDeleteAppMutation']>
     readonly useDeleteBundleMutation: UnwrapRef<typeof import('./src/modules/updates-bundles/index')['useDeleteBundleMutation']>
     readonly useDeleteChannelMutation: UnwrapRef<typeof import('./src/modules/channels/index')['useDeleteChannelMutation']>
     readonly useDeleteConversationMutation: UnwrapRef<typeof import('./src/composables/api/conversations/useConversationsQuery')['useDeleteConversationMutation']>
@@ -1237,9 +1295,11 @@ declare module 'vue' {
     readonly useToast: UnwrapRef<typeof import('./src/composables/useToast')['useToast']>
     readonly useToggle: UnwrapRef<typeof import('@vueuse/core')['useToggle']>
     readonly useTransition: UnwrapRef<typeof import('@vueuse/core')['useTransition']>
+    readonly useUpdateAppMutation: UnwrapRef<typeof import('./src/modules/apps/composables/useAppsQuery')['useUpdateAppMutation']>
     readonly useUpdateBundleMutation: UnwrapRef<typeof import('./src/modules/updates-bundles/index')['useUpdateBundleMutation']>
     readonly useUpdateConversationMutation: UnwrapRef<typeof import('./src/composables/api/conversations/useConversationsQuery')['useUpdateConversationMutation']>
     readonly useUpdateDeviceChannelMutation: UnwrapRef<typeof import('./src/modules/devices/index')['useUpdateDeviceChannelMutation']>
+    readonly useUpdateLogsQuery: UnwrapRef<typeof import('./src/modules/update-logs/composables/useUpdateLogsQuery')['useUpdateLogsQuery']>
     readonly useUpdateMessageMutation: UnwrapRef<typeof import('./src/composables/api/conversations/useMessagesQuery')['useUpdateMessageMutation']>
     readonly useUpdateNativeUpdateMutation: UnwrapRef<typeof import('./src/modules/updates-bundles/index')['useUpdateNativeUpdateMutation']>
     readonly useUpdateOrderMutation: UnwrapRef<typeof import('./src/composables/api/orders/useOrdersQuery')['useUpdateOrderMutation']>

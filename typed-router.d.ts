@@ -37,6 +37,27 @@ declare module 'vue-router/auto-routes' {
       { path: ParamValue<false> },
       | never
     >,
+    '/apps/': RouteRecordInfo<
+      '/apps/',
+      '/apps',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/apps/[id]': RouteRecordInfo<
+      '/apps/[id]',
+      '/apps/:id',
+      { id: ParamValue<true> },
+      { id: ParamValue<false> },
+      | never
+    >,
+    '/apps/create': RouteRecordInfo<
+      '/apps/create',
+      '/apps/create',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/auth/': RouteRecordInfo<
       '/auth/',
       '/auth',
@@ -142,6 +163,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/statistics/': RouteRecordInfo<
+      '/statistics/',
+      '/statistics',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/support/': RouteRecordInfo<
       '/support/',
       '/support',
@@ -166,6 +194,13 @@ declare module 'vue-router/auto-routes' {
     '/support/resources/': RouteRecordInfo<
       '/support/resources/',
       '/support/resources',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/update-logs/': RouteRecordInfo<
+      '/update-logs/',
+      '/update-logs',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -213,6 +248,24 @@ declare module 'vue-router/auto-routes' {
     'src/pages/[...path].vue': {
       routes:
         | '/[...path]'
+      views:
+        | never
+    }
+    'src/pages/apps/index.vue': {
+      routes:
+        | '/apps/'
+      views:
+        | never
+    }
+    'src/pages/apps/[id].vue': {
+      routes:
+        | '/apps/[id]'
+      views:
+        | never
+    }
+    'src/pages/apps/create.vue': {
+      routes:
+        | '/apps/create'
       views:
         | never
     }
@@ -306,6 +359,12 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
+    'src/pages/statistics/index.vue': {
+      routes:
+        | '/statistics/'
+      views:
+        | never
+    }
     'src/pages/support/index.vue': {
       routes:
         | '/support/'
@@ -327,6 +386,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/support/resources/index.vue': {
       routes:
         | '/support/resources/'
+      views:
+        | never
+    }
+    'src/pages/update-logs/index.vue': {
+      routes:
+        | '/update-logs/'
       views:
         | never
     }

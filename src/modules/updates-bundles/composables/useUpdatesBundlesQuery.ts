@@ -5,19 +5,30 @@ import { useApiQuery, useApiMutation } from '@/composables/api/config/useApiQuer
 import { useApiFormDataMutation } from '@/composables/api/config/useApiFormDataMutation'
 import { queryErrorHandler } from '@/composables/api/error/query-error-handler'
 
+import { useAppStore } from '@/stores/app.store'
+import { computed } from 'vue'
+
 // Combined query for both bundles and native updates
 export function useUpdatesBundlesQuery(
   options?: Omit<UseQueryOptions<UpdateOrBundle[], Error>, 'queryKey' | 'queryFn'>,
 ) {
-  return useApiQuery<UpdateOrBundle[]>(['updates-bundles'], '/dashboard/updates-bundles', {
+  const appStore = useAppStore()
+  const activeAppId = computed(() => appStore.activeApp?.app_id)
+
+  const queryKey = computed(() => ['updates-bundles', activeAppId.value])
+
+  return useApiQuery<UpdateOrBundle[]>(queryKey, '/dashboard/updates-bundles', {
     staleTime: 5 * 60 * 1000, // 5 minutes
     ...options,
+    enabled: computed(() => !!activeAppId.value),
     queryFn: async () => {
       try {
+        if (!activeAppId.value) return []
+
         // Fetch both native updates and regular bundles
         const [nativeResponse, bundleResponse] = await Promise.all([
-          apiClient.get('/dashboard/native-updates'),
-          apiClient.get('/dashboard/bundles'),
+          apiClient.get(`/dashboard/native-updates?app_id=${activeAppId.value}`),
+          apiClient.get(`/dashboard/bundles?app_id=${activeAppId.value}`),
         ])
 
         // Convert native updates to UpdateOrBundle type
@@ -54,9 +65,20 @@ export function useUpdatesBundlesQuery(
 export function useBundlesQuery(
   options?: Omit<UseQueryOptions<Bundle[], Error>, 'queryKey' | 'queryFn'>,
 ) {
-  return useApiQuery<Bundle[]>(['bundles'], '/dashboard/bundles', {
+  const appStore = useAppStore()
+  const activeAppId = computed(() => appStore.activeApp?.app_id)
+
+  const queryKey = computed(() => ['bundles', activeAppId.value])
+
+  return useApiQuery<Bundle[]>(queryKey, '/dashboard/bundles', {
     staleTime: 5 * 60 * 1000, // 5 minutes
     ...options,
+    enabled: computed(() => !!activeAppId.value),
+    queryFn: async () => {
+      if (!activeAppId.value) return []
+      const response = await apiClient.get(`/dashboard/bundles?app_id=${activeAppId.value}`)
+      return response.data
+    },
   })
 }
 
@@ -117,9 +139,20 @@ export function useDeleteBundleMutation(
 export function useNativeUpdatesQuery(
   options?: Omit<UseQueryOptions<NativeUpdate[], Error>, 'queryKey' | 'queryFn'>,
 ) {
-  return useApiQuery<NativeUpdate[]>(['native-updates'], '/dashboard/native-updates', {
+  const appStore = useAppStore()
+  const activeAppId = computed(() => appStore.activeApp?.app_id)
+
+  const queryKey = computed(() => ['native-updates', activeAppId.value])
+
+  return useApiQuery<NativeUpdate[]>(queryKey, '/dashboard/native-updates', {
     staleTime: 5 * 60 * 1000, // 5 minutes
     ...options,
+    enabled: computed(() => !!activeAppId.value),
+    queryFn: async () => {
+      if (!activeAppId.value) return []
+      const response = await apiClient.get(`/dashboard/native-updates?app_id=${activeAppId.value}`)
+      return response.data
+    },
   })
 }
 

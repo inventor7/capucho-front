@@ -29,9 +29,10 @@ import {
   Settings,
   GitBranch,
   Smartphone,
-  GraduationCap,
-  Rocket,
   Radio,
+  AppWindow,
+  ScrollText,
+  BarChart3,
 } from 'lucide-vue-next'
 
 const props = withDefaults(defineProps<SidebarProps>(), {
@@ -53,16 +54,6 @@ const apps = [
     logo: Smartphone,
     plan: 'Enterprise',
   },
-  {
-    name: 'E-lmni',
-    logo: GraduationCap,
-    plan: 'Startup',
-  },
-  {
-    name: 'Vueta',
-    logo: Rocket,
-    plan: 'Free',
-  },
 ]
 
 const storeDashboard = [
@@ -73,20 +64,24 @@ const storeDashboard = [
     isActive: true,
   },
 ]
+
 const storeEssentials = [
+  {
+    title: 'Apps',
+    url: '/apps',
+    icon: AppWindow,
+    items: [
+      { title: 'All Apps', url: '/apps' },
+      { title: 'Create App', url: '/apps/create' },
+    ],
+  },
   {
     title: 'Updates & Bundles',
     url: '/updates-bundles',
     icon: GitBranch,
     items: [
-      {
-        title: 'All Updates & Bundles',
-        url: '/updates-bundles',
-      },
-      {
-        title: 'Upload Update/Bundle',
-        url: '/updates-bundles/upload',
-      },
+      { title: 'All Updates', url: '/updates-bundles' },
+      { title: 'Upload Bundle', url: '/updates-bundles/upload' },
     ],
   },
   {
@@ -94,10 +89,8 @@ const storeEssentials = [
     url: '/channels',
     icon: Radio,
     items: [
-      {
-        title: 'All Channels',
-        url: '/channels',
-      },
+      { title: 'All Channels', url: '/channels' },
+      { title: 'Create Channel', url: '/channels/create' },
     ],
   },
   {
@@ -105,10 +98,23 @@ const storeEssentials = [
     url: '/devices',
     icon: Smartphone,
     items: [
-      {
-        title: 'All Devices',
-        url: '/devices',
-      },
+      { title: 'All Devices', url: '/devices' },
+      { title: 'Device Map', url: '/devices/map' },
+    ],
+  },
+  {
+    title: 'Update Logs',
+    url: '/update-logs',
+    icon: ScrollText,
+    items: [{ title: 'Activity Feed', url: '/update-logs' }],
+  },
+  {
+    title: 'Statistics',
+    url: '/statistics',
+    icon: BarChart3,
+    items: [
+      { title: 'Overview', url: '/statistics' },
+      { title: 'Analytics', url: '/statistics/analytics' },
     ],
   },
 ]
@@ -119,30 +125,9 @@ const storeSettings = [
     url: '/settings',
     icon: Settings,
     items: [
-      {
-        title: 'Profile',
-        url: '/settings',
-      },
-      {
-        title: 'Store Settings',
-        url: '/settings/store',
-      },
-      {
-        title: 'Business Hours',
-        url: '/settings/business-hours',
-      },
-      {
-        title: 'Delivery Zone',
-        url: '/settings/delivery-zone',
-      },
-      {
-        title: 'Payment Methods',
-        url: '/settings/payments',
-      },
-      {
-        title: 'Notifications',
-        url: '/settings/notifications',
-      },
+      { title: 'General', url: '/settings' },
+      { title: 'API Keys', url: '/settings/api-keys' },
+      { title: 'Webhooks', url: '/settings/webhooks' },
     ],
   },
   {
@@ -150,18 +135,8 @@ const storeSettings = [
     url: '/support',
     icon: LifeBuoy,
     items: [
-      {
-        title: 'FeedBack',
-        url: '/support/feedback',
-      },
-      {
-        title: 'FAQ',
-        url: '/support/faq',
-      },
-      {
-        title: 'Resources',
-        url: '/support/resources',
-      },
+      { title: 'Documentation', url: '/support/docs' },
+      { title: 'Feedback', url: '/support/feedback' },
     ],
   },
 ]

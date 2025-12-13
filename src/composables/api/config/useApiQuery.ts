@@ -7,19 +7,19 @@ interface ApiResponse<T> {
   data: T
 }
 
+import { unref, type MaybeRef } from 'vue'
+
 export function useApiQuery<TData = unknown>(
-  queryKey: (string | number | object)[],
-  url: string,
-  options?: Omit<
-    UseQueryOptions<TData, Error, TData, (string | number | object)[]>,
-    'queryKey' | 'queryFn'
-  >,
+  queryKey: any,
+  url: MaybeRef<string>,
+  options?: Omit<UseQueryOptions<TData, Error, TData, any>, 'queryKey' | 'queryFn'>,
 ) {
   return useQuery<TData, Error>({
-    queryKey,
+    queryKey: queryKey as any,
     queryFn: async () => {
       try {
-        const response = await apiClient.get(url)
+        const resolvedUrl = unref(url)
+        const response = await apiClient.get(resolvedUrl)
         if (
           typeof response.data === 'object' &&
           response.data !== null &&
@@ -39,7 +39,7 @@ export function useApiQuery<TData = unknown>(
 export function useApiMutation<TData = unknown, TVariables = unknown>(
   url: string,
   method: 'post' | 'put' | 'patch' | 'delete' = 'post',
-  options?: Omit<UseMutationOptions<TData, Error, TVariables>, 'mutationFn'>,
+  options?: UseMutationOptions<TData, Error, TVariables>,
 ) {
   return useMutation<TData, Error, TVariables>({
     mutationFn: async (variables: TVariables) => {
@@ -71,18 +71,15 @@ export function useApiMutation<TData = unknown, TVariables = unknown>(
 }
 
 export function useAuthenticatedQuery<TData = unknown>(
-  queryKey: (string | number | object)[],
-  url: string,
-  options?: Omit<
-    UseQueryOptions<TData, Error, TData, (string | number | object)[]>,
-    'queryKey' | 'queryFn'
-  >,
+  queryKey: any,
+  url: MaybeRef<string>,
+  options?: Omit<UseQueryOptions<TData, Error, TData, any>, 'queryKey' | 'queryFn'>,
 ) {
   return useQuery<TData, Error>({
-    queryKey,
+    queryKey: queryKey as any,
     queryFn: async () => {
       try {
-        const response = await apiClient.get(url)
+        const response = await apiClient.get(unref(url))
         if (
           typeof response.data === 'object' &&
           response.data !== null &&

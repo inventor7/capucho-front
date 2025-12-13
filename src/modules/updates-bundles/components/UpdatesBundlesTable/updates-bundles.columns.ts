@@ -118,6 +118,28 @@ export const updatesBundlesColumns: ColumnDef<UpdateOrBundle>[] = [
     },
   },
 
+  // Min Native Version Column (for OTA bundles only)
+  {
+    accessorKey: 'min_native_version',
+    header: ({ column }) =>
+      h(UpdatesBundlesTableDataTableColumnHeader, { column, title: 'Min Native' }),
+    cell: ({ row }) => {
+      const minNative = row.original.min_native_version
+      if (!minNative || row.original.type === 'native') {
+        return h('div', { class: 'text-muted-foreground' }, '—')
+      }
+      return h('div', { class: 'font-mono' }, `v${minNative}`)
+    },
+    enableSorting: true,
+    enableHiding: true,
+    enableColumnFilter: true,
+    filterFn: 'inNumberRange',
+    size: 100,
+    meta: {
+      filterVariant: 'range',
+    },
+  },
+
   {
     accessorKey: 'platform',
     header: ({ column }) =>

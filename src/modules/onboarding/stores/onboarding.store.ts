@@ -8,6 +8,7 @@ export interface InviteMember {
 
 export const useOnboardingStore = defineStore('onboarding', () => {
   const appName = ref('')
+  const appId = ref('') // Added appId ref
   const platform = ref<'android' | 'ios' | 'flutter' | 'react-native' | 'capacitor' | 'cordova'>(
     'capacitor',
   )
@@ -20,6 +21,7 @@ export const useOnboardingStore = defineStore('onboarding', () => {
 
   const reset = () => {
     appName.value = ''
+    appId.value = '' // Reset appId
     platform.value = 'capacitor'
     createNewTeam.value = false
     teamName.value = ''
@@ -29,6 +31,7 @@ export const useOnboardingStore = defineStore('onboarding', () => {
 
   return {
     appName,
+    appId,
     platform,
     createNewTeam,
     teamName,

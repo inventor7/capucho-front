@@ -151,6 +151,9 @@ onMounted(() => {
 
 // Generate filters from faceted columns
 const filters = computed(() => {
+  // Only generate if we have data
+  if (!props.data || props.data.length === 0) return []
+
   return table
     .getAllColumns()
     .filter((column) => column.columnDef.meta && (column.columnDef.meta as any).faceted)
@@ -160,19 +163,21 @@ const filters = computed(() => {
         meta.title ||
         (typeof column.columnDef.header === 'string' ? column.columnDef.header : column.id)
 
+      // Get faceted values - now resolved, not as getter
+      const facets = column.getFacetedUniqueValues()
+      const options = Array.from(facets.entries()).map(([value, count]) => ({
+        label: `${value}`,
+        value: value,
+        count,
+      }))
+
       return {
         columnId: column.id,
         title: title || column.id,
-        options: () => {
-          const facets = column.getFacetedUniqueValues()
-          return Array.from(facets.entries()).map(([value, count]) => ({
-            label: `${value}`,
-            value: value,
-            count,
-          }))
-        },
+        options, // Resolved values, not a function
       }
     })
+    .filter((f) => f.options.length > 0) // Only show filters with options
 })
 
 const cellPadding = computed(() => {

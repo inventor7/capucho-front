@@ -1,17 +1,31 @@
+import { useAppStore } from '@/stores/app.store'
+import { computed } from 'vue'
+import { apiClient } from '@/services/api.client'
+import { useApiQuery, useApiMutation } from '@/composables/api/config/useApiQuery'
+import { queryErrorHandler } from '@/composables/api/error/query-error-handler'
 import type { UseMutationOptions, UseQueryOptions } from '@tanstack/vue-query'
-import { useGenerateClusteredDevices } from './useGenerateDevices'
 
 export function useDevicesQuery(
   options?: Omit<UseQueryOptions<Device[], Error>, 'queryKey' | 'queryFn'>,
 ) {
-  return useApiQuery<Device[]>(['devices'], '/dashboard/devices', {
-    staleTime: 5 * 60 * 1000,
-    queryFn: async () => {
-      await new Promise((r) => setTimeout(r, 600))
+  const appStore = useAppStore()
+  const activeAppId = computed(() => appStore.activeApp?.app_id)
 
-      return useGenerateClusteredDevices(20, 50)
-    },
+  const queryKey = computed(() => ['devices', activeAppId.value])
+
+  return useApiQuery<Device[]>(queryKey, '/dashboard/devices', {
+    staleTime: 5 * 60 * 1000,
     ...options,
+    enabled: computed(() => !!activeAppId.value),
+    queryFn: async () => {
+      if (!activeAppId.value) return []
+      try {
+        const response = await apiClient.get(`/dashboard/devices?app_id=${activeAppId.value}`)
+        return response.data
+      } catch (error) {
+        throw queryErrorHandler(error)
+      }
+    },
   })
 }
 

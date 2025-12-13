@@ -98,11 +98,12 @@ const isFiltered = computed(() => {
 })
 
 const getFilterOptions = (filter: DataTableFilterDef): DataTableFilterOption[] => {
+  // Handle both function-based and direct array options
   if (typeof filter.options === 'function') {
     const data = props.table.getPreFilteredRowModel().rows.map((row) => row.original)
     return filter.options(data)
   }
-  return filter.options
+  return filter.options as DataTableFilterOption[]
 }
 
 const toggleDensity = () => {

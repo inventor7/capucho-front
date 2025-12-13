@@ -31,6 +31,7 @@ export interface DataTableFilterOption {
   label: string
   value: string | number | boolean
   icon?: any
+  count?: number // For faceted filters
 }
 
 export interface DataTableFilterDef {

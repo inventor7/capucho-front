@@ -186,6 +186,10 @@
   --shadow-2xl: var(--shadow-2xl);
 }
 
+@theme {
+    --font-sans: "ibm-plex-serif-light", sans-serif;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -232,4 +236,14 @@
 .page-leave-to {
   opacity: 0;
   transform: translateX(-16px);
+}
+
+
+.noto-serif-display-300 {
+  font-family: "Noto Serif Display", serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
 }
