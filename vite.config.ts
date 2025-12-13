@@ -99,6 +99,10 @@ export default defineConfig({
     },
   },
 
+  build: {
+    cssCodeSplit: true,
+  },
+
   optimizeDeps: {
     include: ['vue', 'vue-router', 'pinia', '@vueuse/core'],
   },
