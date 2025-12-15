@@ -183,7 +183,7 @@ onMounted(() => {
               <Button
                 size="lg"
                 class="h-14 px-8 rounded-full text-base font-bold shadow-lg shadow-primary/25 hover:scale-105 transition-all duration-300"
-                @click="router.push('/auth/register')"
+                @click="router.push('/auth/login')"
               >
                 Start Shipping Free
                 <ArrowRight class="ml-2 w-5 h-5" />

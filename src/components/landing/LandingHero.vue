@@ -92,7 +92,7 @@ onMounted(() => {
         <Button
           size="lg"
           class="group w-full sm:w-auto px-8 py-3.5 rounded-full font-medium shadow-xl shadow-primary/20"
-          @click="router.push('/auth/register')"
+          @click="router.push('/auth/login')"
         >
           Start Deploying
           <ArrowRight class="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />

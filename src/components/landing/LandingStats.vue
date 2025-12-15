@@ -18,7 +18,7 @@ const { stop } = useIntersectionObserver(
 
 const stats = [
   { label: 'Active Devices', value: 15000, suffix: '+', duration: 1500 },
-  { label: 'Updates Served', value: 2500000, suffix: '+', duration: 2000 },
+  { label: 'Updates Served', value: 2500, suffix: '+', duration: 2000 },
   { label: 'Uptime', value: 99.99, suffix: '%', decimals: 2, duration: 2500 },
   { label: 'Data Saved', value: 450, suffix: 'TB', duration: 3000 },
 ]

@@ -76,7 +76,7 @@
             <div class="text-center text-sm">
               Don’t have an account?
               <RouterLink
-                to="/auth/register"
+                to="/auth/login"
                 class="underline underline-offset-4 hover:text-indigo-500"
               >
                 Sign up

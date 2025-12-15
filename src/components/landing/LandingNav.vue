@@ -100,7 +100,7 @@ const scrollToSection = (href: string) => {
         <Button
           size="sm"
           class="rounded-full px-5 shadow-lg shadow-primary/20 hover:scale-105 transition-transform"
-          @click="router.push('/auth/register')"
+          @click="router.push('/auth/login')"
         >
           Get Started
         </Button>
@@ -134,7 +134,7 @@ const scrollToSection = (href: string) => {
           <Button variant="outline" class="w-full" @click="router.push('/auth/login')">
             Log in
           </Button>
-          <Button class="w-full" @click="router.push('/auth/register')"> Get Started </Button>
+          <Button class="w-full" @click="router.push('/auth/login')"> Get Started </Button>
         </div>
       </div>
     </div>
@@ -172,7 +172,7 @@ const scrollToSection = (href: string) => {
       </button>
 
       <button
-        @click="router.push('/auth/register')"
+        @click="router.push('/auth/login')"
         class="px-4 py-2 rounded-full bg-primary text-primary-foreground text-xs font-bold hover:brightness-110 transition-all"
       >
         Start
