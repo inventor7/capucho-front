@@ -9,7 +9,11 @@
         v-model:open="openStates[index]"
       >
         <SidebarMenuItem>
-          <CollapsibleTrigger @click.stop="openStates[index] = !openStates[index]" as-child>
+          <CollapsibleTrigger
+            class="cursor-pointer"
+            @click.prevent="openStates[index] = !openStates[index]"
+            as-child
+          >
             <SidebarMenuButton
               @click="goToRoute(item.url)"
               :tooltip="item.title"
@@ -21,6 +25,7 @@
                 v-if="item.items?.length"
                 class="ms-auto transition-transform duration-200"
                 :class="{ 'rotate-90': openStates[index], 'rotate-180': direction === 'rtl' }"
+                @click.stop="openStates[index] = !openStates[index]"
               />
             </SidebarMenuButton>
           </CollapsibleTrigger>
