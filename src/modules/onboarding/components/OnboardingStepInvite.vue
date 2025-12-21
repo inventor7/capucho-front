@@ -1,8 +1,10 @@
 <template>
   <div class="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
     <div class="space-y-2 text-center">
-      <h1 class="text-3xl font-bold tracking-tight">Invite your team</h1>
-      <p class="text-muted-foreground">Collaborate with your team members on this project.</p>
+      <h1 class="text-3xl font-bold tracking-tight">Invite your members</h1>
+      <p class="text-muted-foreground">
+        Collaborate with your organization members on this project.
+      </p>
     </div>
 
     <div class="space-y-4">
@@ -120,7 +122,7 @@ const handleFinish = async () => {
     toast.success('Setup complete!')
     emit('next')
   } catch (e: any) {
-    toast.error(e.message || 'Failed to setup team')
+    toast.error(e.message || 'Failed to send invites')
   } finally {
     isSubmitting.value = false
   }

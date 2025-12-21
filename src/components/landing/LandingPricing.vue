@@ -6,12 +6,12 @@ import AnimatedUnderline from './AnimatedUnderline.vue'
 const billingPeriod = ref<'monthly' | 'yearly'>('monthly')
 
 const features = {
-  starter: ['Up to 1,000 MAU', 'Basic OTA Updates', 'Community Support', '1 Team Member'],
+  starter: ['Up to 1,000 MAU', 'Basic OTA Updates', 'Community Support', '1 Member'],
   pro: [
     'Up to 10,000 MAU',
     'Advanced Analytics',
     'Priority Support',
-    '5 Team Members',
+    '5 Members',
     'Binary Diffing',
     'Rollback Protection',
   ],
@@ -19,7 +19,7 @@ const features = {
     'Unlimited MAU',
     'Custom Contracts',
     'Dedicated Success Manager',
-    'Unlimited Team Members',
+    'Unlimited Members',
     'SSO / SAML',
     'On-premise Option',
     'SLA Guarantee',

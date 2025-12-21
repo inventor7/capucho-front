@@ -9,7 +9,7 @@
     <LandingCodeSection id="code" />
     <LandingDashboardPreview id="dashboard" />
     <LandingTestimonials id="testimonials" />
-    <LandingTeam id="team" />
+    <LandingCollaboration id="collaboration" />
     <LandingStats />
     <LandingPricing id="pricing" />
     <LandingCTA />
@@ -29,7 +29,7 @@ import LandingFooter from '@/components/landing/LandingFooter.vue'
 import LandingStats from '@/components/landing/LandingStats.vue'
 import LandingTestimonials from '@/components/landing/LandingTestimonials.vue'
 import LandingPricing from '@/components/landing/LandingPricing.vue'
-import LandingTeam from '@/components/landing/LandingTeam.vue'
+import LandingCollaboration from '@/components/landing/LandingCollaboration.vue'
 import LandingCTA from '@/components/landing/LandingCTA.vue'
 import ScrollToTop from '@/components/landing/ScrollToTop.vue'
 

@@ -12,6 +12,9 @@ export const useAuthStore = defineStore(
     const loading = ref(false)
     const error = ref<string | null>(null)
 
+    // OTP flow state
+    const pendingVerificationEmail = ref<string | null>(null)
+
     const isAuthenticated = computed(() => {
       return !!accessToken.value
     })
@@ -43,6 +46,8 @@ export const useAuthStore = defineStore(
       try {
         const response = await authService.register(data)
         user.value = response.user
+        // Store email for OTP verification step
+        pendingVerificationEmail.value = data.email
       } catch (err: any) {
         error.value = err.message || 'Registration failed'
         throw err
@@ -51,10 +56,55 @@ export const useAuthStore = defineStore(
       }
     }
 
+    async function verifyOtp(token: string) {
+      if (!pendingVerificationEmail.value) {
+        throw new Error('No pending verification email')
+      }
+
+      loading.value = true
+      error.value = null
+
+      try {
+        const { user: verifiedUser, session: newSession } = await authService.verifyOtp(
+          pendingVerificationEmail.value,
+          token,
+          'signup',
+        )
+
+        user.value = verifiedUser
+        session.value = newSession
+        accessToken.value = newSession?.access_token ?? ''
+        pendingVerificationEmail.value = null
+
+        return { user: verifiedUser, session: newSession }
+      } catch (err: any) {
+        error.value = err.message || 'Verification failed'
+        throw err
+      } finally {
+        loading.value = false
+      }
+    }
+
+    async function resendOtp() {
+      if (!pendingVerificationEmail.value) {
+        throw new Error('No pending verification email')
+      }
+
+      try {
+        await authService.resendOtp(pendingVerificationEmail.value)
+      } catch (err: any) {
+        error.value = err.message || 'Failed to resend code'
+        throw err
+      }
+    }
+
     async function logout() {
       try {
         await authService.logout()
         user.value = null
+        session.value = null
+        accessToken.value = null
+        pendingVerificationEmail.value = null
       } catch (err: any) {
         error.value = err.message || 'Logout failed'
       }
@@ -71,8 +121,27 @@ export const useAuthStore = defineStore(
 
     async function init() {
       try {
-        const { user: currentUser } = await authService.checkAuthState()
-        user.value = currentUser
+        const { session: currentSession } = await authService.getSession()
+
+        session.value = currentSession
+        user.value = currentSession?.user ?? null
+
+        if (currentSession?.access_token) {
+          accessToken.value = currentSession.access_token
+        }
+
+        authService.onAuthStateChange((event, newSession) => {
+          session.value = newSession
+          user.value = newSession?.user ?? null
+          accessToken.value = newSession?.access_token ?? null
+
+          if (event === 'SIGNED_OUT') {
+            user.value = null
+            session.value = null
+            accessToken.value = null
+            pendingVerificationEmail.value = null
+          }
+        })
       } catch (err) {
         console.error('Error initializing auth state:', err)
       }
@@ -84,8 +153,11 @@ export const useAuthStore = defineStore(
       loading,
       error,
       isAuthenticated,
+      pendingVerificationEmail,
       login,
       register,
+      verifyOtp,
+      resendOtp,
       logout,
       fetchProfile,
       init,

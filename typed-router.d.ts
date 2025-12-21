@@ -79,6 +79,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/canvas': RouteRecordInfo<
+      '/canvas',
+      '/canvas',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/channels/': RouteRecordInfo<
       '/channels/',
       '/channels',
@@ -121,44 +128,9 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/settings/': RouteRecordInfo<
-      '/settings/',
+    '/settings': RouteRecordInfo<
       '/settings',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/settings/billing/': RouteRecordInfo<
-      '/settings/billing/',
-      '/settings/billing',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/settings/business-hours/': RouteRecordInfo<
-      '/settings/business-hours/',
-      '/settings/business-hours',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/settings/delivery-zone/': RouteRecordInfo<
-      '/settings/delivery-zone/',
-      '/settings/delivery-zone',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/settings/limits/': RouteRecordInfo<
-      '/settings/limits/',
-      '/settings/limits',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/settings/store/': RouteRecordInfo<
-      '/settings/store/',
-      '/settings/store',
+      '/settings',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -166,34 +138,6 @@ declare module 'vue-router/auto-routes' {
     '/statistics/': RouteRecordInfo<
       '/statistics/',
       '/statistics',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/support/': RouteRecordInfo<
-      '/support/',
-      '/support',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/support/faq/': RouteRecordInfo<
-      '/support/faq/',
-      '/support/faq',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/support/feedback/': RouteRecordInfo<
-      '/support/feedback/',
-      '/support/feedback',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/support/resources/': RouteRecordInfo<
-      '/support/resources/',
-      '/support/resources',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -287,6 +231,12 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
+    'src/pages/canvas.vue': {
+      routes:
+        | '/canvas'
+      views:
+        | never
+    }
     'src/pages/channels/index.vue': {
       routes:
         | '/channels/'
@@ -323,69 +273,15 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
-    'src/pages/settings/index.vue': {
+    'src/pages/settings.vue': {
       routes:
-        | '/settings/'
-      views:
-        | never
-    }
-    'src/pages/settings/billing/index.vue': {
-      routes:
-        | '/settings/billing/'
-      views:
-        | never
-    }
-    'src/pages/settings/business-hours/index.vue': {
-      routes:
-        | '/settings/business-hours/'
-      views:
-        | never
-    }
-    'src/pages/settings/delivery-zone/index.vue': {
-      routes:
-        | '/settings/delivery-zone/'
-      views:
-        | never
-    }
-    'src/pages/settings/limits/index.vue': {
-      routes:
-        | '/settings/limits/'
-      views:
-        | never
-    }
-    'src/pages/settings/store/index.vue': {
-      routes:
-        | '/settings/store/'
+        | '/settings'
       views:
         | never
     }
     'src/pages/statistics/index.vue': {
       routes:
         | '/statistics/'
-      views:
-        | never
-    }
-    'src/pages/support/index.vue': {
-      routes:
-        | '/support/'
-      views:
-        | never
-    }
-    'src/pages/support/faq/index.vue': {
-      routes:
-        | '/support/faq/'
-      views:
-        | never
-    }
-    'src/pages/support/feedback/index.vue': {
-      routes:
-        | '/support/feedback/'
-      views:
-        | never
-    }
-    'src/pages/support/resources/index.vue': {
-      routes:
-        | '/support/resources/'
       views:
         | never
     }

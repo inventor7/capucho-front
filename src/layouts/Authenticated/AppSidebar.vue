@@ -1,14 +1,14 @@
 <template>
   <Sidebar v-bind="props">
     <SidebarHeader>
-      <StoreSwitcher :stores="apps" />
+      <AppSwitcher />
     </SidebarHeader>
     <SidebarContent class="flex flex-col justify-between items-start h-full">
       <div class="w-full">
-        <NavMain :items="storeDashboard" group-name="Dashboard" />
-        <NavMain :items="storeEssentials" group-name="Modules" />
+        <NavMain :items="appDashboard" group-name="Dashboard" />
+        <NavMain :items="appEssentials" group-name="Modules" />
       </div>
-      <NavMain :items="storeSettings" group-name="Settings" />
+      <NavMain :items="appSettings" group-name="Settings" />
     </SidebarContent>
     <SidebarFooter>
       <NavUser :user="navUser" />
@@ -17,23 +17,21 @@
 </template>
 <script setup lang="ts">
 import SidebarHeader from '@/components/ui/sidebar/SidebarHeader.vue'
-import { storeToRefs } from 'pinia'
 import NavMain from './NavMain.vue'
-import NavUser from './NavUser.vue'
-import StoreSwitcher from './StoreSwitcher.vue'
+import AppSwitcher from './AppSwitcher.vue'
 
 import type { SidebarProps } from '@/components/ui/sidebar'
 import {
   Home,
-  LifeBuoy,
-  Settings,
-  GitBranch,
-  Smartphone,
-  Radio,
-  AppWindow,
-  ScrollText,
   BarChart3,
+  GitBranch,
+  Radio,
+  Smartphone,
+  ScrollText,
+  Settings2,
+  Workflow,
 } from 'lucide-vue-next'
+import NavUser from './NavUser.vue'
 
 const props = withDefaults(defineProps<SidebarProps>(), {
   variant: 'inset',
@@ -42,39 +40,31 @@ const props = withDefaults(defineProps<SidebarProps>(), {
 const authStore = useAuthStore()
 const { user } = storeToRefs(authStore)
 
-const navUser = {
+const navUser = computed(() => ({
   name: user.value?.email?.split('@')[0] ?? '',
   email: user.value?.email ?? '',
   avatar: '/avatars/shadcn.jpg',
-}
+}))
 
-const apps = [
-  {
-    name: 'Vuena',
-    logo: Smartphone,
-    plan: 'Enterprise',
-  },
-]
-
-const storeDashboard = [
+const appDashboard = [
   {
     title: 'Dashboard',
-    url: '/dashboard/',
+    url: '/dashboard',
     icon: Home,
-    isActive: true,
+  },
+  {
+    title: 'Statistics',
+    url: '/statistics',
+    icon: BarChart3,
+  },
+  {
+    title: 'Canvas',
+    url: '/canvas',
+    icon: Workflow,
   },
 ]
 
-const storeEssentials = [
-  {
-    title: 'Apps',
-    url: '/apps',
-    icon: AppWindow,
-    items: [
-      { title: 'All Apps', url: '/apps' },
-      { title: 'Create App', url: '/apps/create' },
-    ],
-  },
+const appEssentials = [
   {
     title: 'Updates & Bundles',
     url: '/updates-bundles',
@@ -108,36 +98,13 @@ const storeEssentials = [
     icon: ScrollText,
     items: [{ title: 'Activity Feed', url: '/update-logs' }],
   },
-  {
-    title: 'Statistics',
-    url: '/statistics',
-    icon: BarChart3,
-    items: [
-      { title: 'Overview', url: '/statistics' },
-      { title: 'Analytics', url: '/statistics/analytics' },
-    ],
-  },
 ]
 
-const storeSettings = [
+const appSettings = [
   {
     title: 'Settings',
     url: '/settings',
-    icon: Settings,
-    items: [
-      { title: 'General', url: '/settings' },
-      { title: 'API Keys', url: '/settings/api-keys' },
-      { title: 'Webhooks', url: '/settings/webhooks' },
-    ],
-  },
-  {
-    title: 'Support',
-    url: '/support',
-    icon: LifeBuoy,
-    items: [
-      { title: 'Documentation', url: '/support/docs' },
-      { title: 'Feedback', url: '/support/feedback' },
-    ],
+    icon: Settings2,
   },
 ]
 </script>

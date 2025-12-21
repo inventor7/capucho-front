@@ -1,388 +1,237 @@
 <template>
   <div class="space-y-6">
-    <div>
-      <h1 class="text-3xl font-heading font-bold">Dashboard</h1>
-      <p class="text-muted-foreground">
-        Welcome back! Here's what's happening with your store today.
+    <div v-if="!activeApp" class="flex flex-col items-center justify-center py-12 text-center">
+      <ILucideAppWindow class="h-12 w-12 text-muted-foreground mb-4" />
+      <h3 class="text-lg font-semibold">No app selected</h3>
+      <p class="text-muted-foreground mb-4">
+        Select an app from the sidebar to view its dashboard.
       </p>
     </div>
 
-    <!-- Stats Cards -->
-    <div v-if="isLoadingStats" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <Card v-for="i in 4" :key="i">
-        <CardContent class="px-6 py-3">
-          <div class="space-y-2">
-            <Skeleton class="h-4 w-[100px]" />
-            <Skeleton class="h-8 w-[60px]" />
-          </div>
-        </CardContent>
-      </Card>
-    </div>
-
-    <div v-else-if="statsError" class="p-6 text-center text-red-500">
-      Failed to load dashboard statistics.
-    </div>
-
-    <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <Card v-for="(stat, index) in dashboardStats" :key="index">
-        <CardContent class="px-6 py-3">
-          <div class="flex items-center justify-between">
+    <div v-else class="space-y-6">
+      <!-- Header -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div class="space-y-1">
+          <div class="flex items-center gap-3">
+            <div
+              v-if="activeApp.icon_url"
+              class="h-12 w-12 rounded-xl overflow-hidden border-2 border-primary/20 shadow-lg"
+            >
+              <img
+                :src="activeApp.icon_url"
+                :alt="activeApp.name"
+                class="h-full w-full object-cover"
+              />
+            </div>
+            <div
+              v-else
+              class="h-12 w-12 rounded-xl bg-linear-to-br from-primary/20 to-primary/5 flex items-center justify-center border border-primary/20"
+            >
+              <ILucideAppWindow class="h-6 w-6 text-primary" />
+            </div>
             <div>
-              <p class="text-sm font-medium text-muted-foreground">{{ stat.title }}</p>
-              <p class="text-2xl font-bold">{{ stat.value }}</p>
-            </div>
-            <div class="p-3 rounded-full bg-foreground/10">
-              <component :is="stat.icon" class="h-6 w-6" :class="stat.color" />
+              <h1 class="text-2xl font-bold tracking-tight">{{ activeApp.name }}</h1>
+              <div class="flex items-center gap-2 text-sm text-muted-foreground">
+                <code class="bg-muted px-2 py-0.5 rounded text-xs">{{ activeApp.app_id }}</code>
+                <Badge v-if="activeApp.platform" variant="secondary" class="text-xs">
+                  {{ activeApp.platform }}
+                </Badge>
+              </div>
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <Card class="overflow-hidden">
+          <div class="h-1 bg-linear-to-r from-blue-500 to-blue-600" />
+          <CardHeader class="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle class="text-sm font-medium">Total Devices</CardTitle>
+            <ILucideSmartphone class="h-4 w-4 text-blue-500" />
+          </CardHeader>
+          <CardContent>
+            <div class="text-3xl font-bold">{{ activeApp.total_devices ?? 0 }}</div>
+            <p class="text-xs text-muted-foreground mt-1">Active installations</p>
+          </CardContent>
+        </Card>
+        <Card class="overflow-hidden">
+          <div class="h-1 bg-linear-to-r from-emerald-500 to-emerald-600" />
+          <CardHeader class="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle class="text-sm font-medium">Bundles</CardTitle>
+            <ILucidePackage class="h-4 w-4 text-emerald-500" />
+          </CardHeader>
+          <CardContent>
+            <div class="text-3xl font-bold">{{ activeApp.total_bundles ?? 0 }}</div>
+            <p class="text-xs text-muted-foreground mt-1">OTA updates uploaded</p>
+          </CardContent>
+        </Card>
+        <Card class="overflow-hidden">
+          <div class="h-1 bg-linear-to-r from-violet-500 to-violet-600" />
+          <CardHeader class="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle class="text-sm font-medium">Channels</CardTitle>
+            <ILucideRadio class="h-4 w-4 text-violet-500" />
+          </CardHeader>
+          <CardContent>
+            <div class="text-3xl font-bold">{{ channelCount }}</div>
+            <p class="text-xs text-muted-foreground mt-1">Release channels</p>
+          </CardContent>
+        </Card>
+        <Card class="overflow-hidden">
+          <div class="h-1 bg-linear-to-r from-amber-500 to-amber-600" />
+          <CardHeader class="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle class="text-sm font-medium">Created</CardTitle>
+            <ILucideClock class="h-4 w-4 text-amber-500" />
+          </CardHeader>
+          <CardContent>
+            <div class="text-xl font-bold">{{ formatDate(activeApp.created_at) }}</div>
+            <p class="text-xs text-muted-foreground mt-1">
+              {{ formatRelativeTime(activeApp.created_at) }}
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+
+      <!-- Main Content -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 space-y-6">
+          <!-- SDK Configuration -->
+          <Card>
+            <CardHeader>
+              <CardTitle class="flex items-center gap-2">
+                <ILucideCode class="h-5 w-5" />
+                SDK Configuration
+              </CardTitle>
+              <CardDescription>
+                Copy these settings to your <code>capacitor.config.ts</code> file to enable OTA
+                updates for this app.
+              </CardDescription>
+            </CardHeader>
+            <CardContent class="space-y-4">
+              <div class="rounded-lg bg-zinc-950 p-4 font-mono text-sm text-zinc-50 relative group">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  class="absolute right-2 top-2 h-8 w-8 text-zinc-400 hover:text-white hover:bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity"
+                  @click="copySnippet"
+                >
+                  <ILucideCopy class="h-4 w-4" />
+                </Button>
+                <pre class="overflow-x-auto"><code>{{ sdkSnippet }}</code></pre>
+              </div>
+
+              <Alert>
+                <ILucideInfo />
+                <AlertTitle>
+                  Ensure you have the @capgo/capacitor-updater plugin installed in your project.
+                </AlertTitle>
+              </Alert>
+            </CardContent>
+          </Card>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="space-y-6">
+          <!-- Quick Actions -->
+          <Card>
+            <CardHeader>
+              <CardTitle class="text-sm">Quick Actions</CardTitle>
+            </CardHeader>
+            <CardContent class="space-y-2">
+              <Button
+                class="w-full justify-start"
+                variant="outline"
+                @click="router.push(`/channels`)"
+              >
+                <ILucideRadio class="mr-2 h-4 w-4" />
+                Manage Channels
+              </Button>
+              <Button
+                class="w-full justify-start"
+                variant="outline"
+                @click="router.push(`/updates-bundles`)"
+              >
+                <ILucidePackage class="mr-2 h-4 w-4" />
+                Manage Bundles
+              </Button>
+              <Button
+                class="w-full justify-start"
+                variant="outline"
+                @click="router.push(`/devices`)"
+              >
+                <ILucideSmartphone class="mr-2 h-4 w-4" />
+                View Devices
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
     </div>
-
-    <!-- Main Content Area -->
-    <Tabs defaultValue="analytics" class="space-y-6">
-      <TabsList>
-        <TabsTrigger value="analytics">Analytics</TabsTrigger>
-        <TabsTrigger value="overview">Overview</TabsTrigger>
-        <TabsTrigger value="updates">Recent Updates</TabsTrigger>
-      </TabsList>
-
-      <TabsContent value="analytics">
-        <div class="flex w-full">
-          <UpdateDownloadsChart
-            :data="downloadChartData"
-            title="Update Downloads"
-            description="Weekly download trends"
-            class="w-full"
-          />
-        </div>
-        <div class="grid grid-cols-1 lg:grid-cols-2 mt-6 gap-6">
-          <ChannelDistributionChart
-            :data="channelDistributionData"
-            title="Channel Distribution"
-            description="Distribution across channels"
-          />
-          <DeviceDistributionChart
-            :data="deviceDistributionData"
-            title="Device Distribution"
-            description="Platform breakdown"
-          />
-        </div>
-      </TabsContent>
-      <TabsContent value="overview" class="space-y-6">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <!-- System Status Card -->
-          <Card class="lg:col-span-1">
-            <CardHeader>
-              <CardTitle class="font-heading">System Status</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div class="space-y-4">
-                <div class="flex items-center justify-between">
-                  <span class="text-sm font-medium">Server Status</span>
-                  <Badge variant="outline" class="bg-green-50 text-green-700 border-green-200">
-                    Online
-                  </Badge>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="text-sm font-medium">API Version</span>
-                  <span class="text-sm text-muted-foreground">v1.0.0</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="text-sm font-medium">Database</span>
-                  <Badge variant="outline" class="bg-green-50 text-green-700 border-green-200">
-                    Connected
-                  </Badge>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="text-sm font-medium">Storage</span>
-                  <span class="text-sm text-muted-foreground">
-                    {{ ((storageUsed / totalStorage) * 100).toFixed(1) }}% of
-                    {{ formatBytes(totalStorage) }}
-                  </span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <!-- Quick Actions Card -->
-          <Card class="lg:col-span-2">
-            <CardHeader>
-              <CardTitle class="font-heading">Quick Actions</CardTitle>
-              <CardDescription>Access common functions quickly</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div class="grid grid-cols-2 gap-4">
-                <Button variant="outline" class="h-20 flex flex-col items-center justify-center">
-                  <Package class="h-6 w-6 mb-2" />
-                  <span>Manage Bundles</span>
-                </Button>
-                <Button variant="outline" class="h-20 flex flex-col items-center justify-center">
-                  <Smartphone class="h-6 w-6 mb-2" />
-                  <span>View Devices</span>
-                </Button>
-                <Button variant="outline" class="h-20 flex flex-col items-center justify-center">
-                  <Radio class="h-6 w-6 mb-2" />
-                  <span>Manage Channels</span>
-                </Button>
-                <Button variant="outline" class="h-20 flex flex-col items-center justify-center">
-                  <Download class="h-6 w-6 mb-2" />
-                  <span>Upload Update</span>
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        <!-- Recent Activity Section -->
-        <Card>
-          <CardHeader>
-            <CardTitle class="font-heading">Recent Activity</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div v-if="isLoadingActivity" class="flex justify-center p-8">
-              <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-            </div>
-            <div v-else-if="activityError" class="p-4 text-center text-red-500">
-              Failed to load recent activity.
-            </div>
-            <div v-else class="space-y-4">
-              <div
-                v-for="(activity, index) in recentActivity"
-                :key="index"
-                class="flex items-start space-x-4 p-4 rounded-lg border border-border/40 hover:bg-muted/20 transition-colors"
-              >
-                <div :class="`p-2 rounded-full ${activity.iconBg}`">
-                  <component :is="activity.icon" :class="`h-5 w-5 ${activity.iconColor}`" />
-                </div>
-                <div class="flex-1 space-y-1">
-                  <p class="text-sm font-medium">{{ activity.title }}</p>
-                  <p class="text-sm text-muted-foreground">{{ activity.description }}</p>
-                  <p class="text-xs text-muted-foreground">{{ activity.time }}</p>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </TabsContent>
-
-      <TabsContent value="updates">
-        <Card>
-          <CardHeader>
-            <CardTitle class="font-heading">Recent Updates</CardTitle>
-            <CardDescription>Latest bundle and native updates</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div v-if="isLoadingUpdates" class="flex justify-center p-8">
-              <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-            </div>
-            <div v-else-if="updatesError" class="p-4 text-center text-red-500">
-              Failed to load updates.
-            </div>
-            <div v-else class="space-y-4">
-              <div
-                v-for="(update, index) in recentUpdates"
-                :key="index"
-                class="flex items-center justify-between p-4 rounded-lg border border-border/40 hover:bg-muted/20 transition-colors"
-              >
-                <div class="flex items-center space-x-4">
-                  <div
-                    :class="`p-2 rounded-full ${
-                      update.type === 'bundle'
-                        ? 'bg-blue-100 text-blue-600'
-                        : 'bg-green-100 text-green-600'
-                    }`"
-                  >
-                    <component
-                      :is="update.type === 'bundle' ? Package : Smartphone"
-                      class="h-5 w-5"
-                    />
-                  </div>
-                  <div>
-                    <p class="font-medium">{{ update.version }}</p>
-                    <div class="flex items-center space-x-2 text-sm text-muted-foreground">
-                      <span class="capitalize">{{ update.platform }}</span>
-                      <span>•</span>
-                      <span class="capitalize">{{ update.channel }}</span>
-                      <span>•</span>
-                      <span>{{ update.environment }}</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="text-sm text-muted-foreground">{{ update.createdAt }}</div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </TabsContent>
-    </Tabs>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Package, Smartphone, Download, Radio, Upload, Activity } from 'lucide-vue-next'
+import { useAppStore } from '@/stores/app.store'
+import { toast } from 'vue-sonner'
 
-const { data: statsData, isLoading: isLoadingStats, error: statsError } = useDashboardStatsQuery()
-
-const recentActivity = ref([
-  {
-    title: 'New bundle uploaded',
-    description: 'v2.1.0 for web platform',
-    time: '2 minutes ago',
-    icon: Upload,
-    iconColor: 'text-blue-600',
-    iconBg: 'bg-blue-100',
-  },
-  {
-    title: 'Device connected',
-    description: 'New iOS device registered',
-    time: '1 hour ago',
-    icon: Smartphone,
-    iconColor: 'text-green-600',
-    iconBg: 'bg-green-100',
-  },
-  {
-    title: 'Channel updated',
-    description: 'Stable channel settings modified',
-    time: '3 hours ago',
-    icon: Radio,
-    iconColor: 'text-orange-600',
-    iconBg: 'bg-orange-100',
-  },
-  {
-    title: 'System maintenance',
-    description: 'Database backup completed',
-    time: '1 day ago',
-    icon: Activity,
-    iconColor: 'text-purple-600',
-    iconBg: 'bg-purple-100',
-  },
-])
-
-// Mock recent updates data
-const recentUpdates = ref([
-  {
-    version: 'v2.1.0',
-    type: 'bundle',
-    platform: 'web',
-    channel: 'stable',
-    environment: 'prod',
-    createdAt: '2025-01-15',
-  },
-  {
-    version: 'v3.0.1',
-    type: 'native',
-    platform: 'android',
-    channel: 'beta',
-    environment: 'staging',
-    createdAt: '2025-01-14',
-  },
-  {
-    version: 'v1.8.5',
-    type: 'bundle',
-    platform: 'web',
-    channel: 'dev',
-    environment: 'dev',
-    createdAt: '2025-01-13',
-  },
-  {
-    version: 'v4.2.0',
-    type: 'native',
-    platform: 'ios',
-    channel: 'stable',
-    environment: 'prod',
-    createdAt: '2025-01-12',
-  },
-])
-
-// System status mock data
-const storageUsed = ref(2.5 * 1024 * 1024 * 1024) // 2.5GB
-const totalStorage = ref(10 * 1024 * 1024 * 1024) // 10GB
-
-// Loading states for new sections
-const isLoadingActivity = ref(false)
-const activityError = ref(null)
-const isLoadingUpdates = ref(false)
-const updatesError = ref(null)
-
-// Format bytes helper function
-const formatBytes = (bytes: number, decimals = 2) => {
-  if (bytes === 0) return '0 Bytes'
-  const k = 1024
-  const dm = decimals < 0 ? 0 : decimals
-  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB']
-  const i = Math.floor(Math.log(bytes) / Math.log(k))
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i]
-}
-
-// Chart data - will be populated from API when available
-const downloadChartData = computed(() => {
-  // Use mock data for now - would come from API in real implementation
-  return [
-    { date: new Date('2024-04-01'), desktop: 222, mobile: 150 },
-    { date: new Date('2024-04-02'), desktop: 97, mobile: 180 },
-    { date: new Date('2024-04-03'), desktop: 167, mobile: 120 },
-    { date: new Date('2024-04-04'), desktop: 242, mobile: 260 },
-    { date: new Date('2024-04-05'), desktop: 373, mobile: 290 },
-    { date: new Date('2024-04-06'), desktop: 301, mobile: 340 },
-    { date: new Date('2024-04-07'), desktop: 245, mobile: 180 },
-  ]
-})
-
-const deviceDistributionData = computed(() => {
-  // Use mock data for now - would come from API in real implementation
-  return [
-    { platform: 'android', downloads: 350 },
-    { platform: 'ios', downloads: 280 },
-    { platform: 'web', downloads: 190 },
-  ]
-})
-
-const channelDistributionData = computed(() => {
-  // Use mock data for now - would come from API in real implementation
-  return [
-    { channel: 'stable', count: 450, fill: 'var(--color-chart-1)' },
-    { channel: 'beta', count: 300, fill: 'var(--color-chart-2)' },
-    { channel: 'dev', count: 180, fill: 'var(--color-chart-3)' },
-  ]
-})
-
-const dashboardStats = computed(() => {
-  if (!statsData.value) return []
-
-  return [
-    {
-      title: 'Total Bundles',
-      value: statsData.value.bundles_count ?? 0,
-      icon: Package,
-      color: 'text-blue-600',
-    },
-    {
-      title: 'Active Devices',
-      value: statsData.value.devices_count ?? 0,
-      icon: Smartphone,
-      color: 'text-green-600',
-    },
-    {
-      title: 'Update Downloads',
-      value: statsData.value.downloads_count ?? 0,
-      icon: Download,
-      color: 'text-purple-600',
-    },
-    {
-      title: 'Active Channels',
-      value: statsData.value.channels_count ?? 0,
-      icon: Radio,
-      color: 'text-orange-600',
-    },
-  ]
-})
+const router = useRouter()
+const appStore = useAppStore()
+const { activeApp } = storeToRefs(appStore)
 
 definePage({
   meta: {
-    title: 'Dashboard - CapGO Admin',
-    description: 'Monitor your self-hosted CapGO instance.',
+    title: 'Dashboard',
+    description: 'App Overview',
   },
-  props: true,
 })
+
+const channelCount = computed(() => 0) // TODO: Fetch from API context-aware
+
+const sdkSnippet = computed(() => {
+  const apiBase = window.location.origin.replace(/:\d+$/, ':3000') + '/api'
+  return `import { CapacitorConfig } from '@capacitor/cli';
+
+const config: CapacitorConfig = {
+  appId: '${activeApp.value?.app_id || 'com.example.app'}',
+  appName: '${activeApp.value?.name || 'My App'}',
+  webDir: 'dist',
+  plugins: {
+    CapacitorUpdater: {
+      autoUpdate: true,
+      statsUrl: '${apiBase}/stats',
+      updateUrl: '${apiBase}/update'
+    }
+  }
+};
+
+export default config;`
+})
+
+const copySnippet = async () => {
+  try {
+    await navigator.clipboard.writeText(sdkSnippet.value)
+    toast.success('Configuration snippet copied to clipboard!')
+  } catch (err) {
+    console.error('Failed to copy:', err)
+  }
+}
+
+const formatDate = (dateString?: string) => {
+  if (!dateString) return 'N/A'
+  return new Date(dateString).toLocaleDateString()
+}
+
+const formatRelativeTime = (dateString?: string) => {
+  if (!dateString) return ''
+  const date = new Date(dateString)
+  const now = new Date()
+  const diffMs = now.getTime() - date.getTime()
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
+
+  if (diffDays === 0) return 'Today'
+  if (diffDays === 1) return 'Yesterday'
+  if (diffDays < 30) return `${diffDays} days ago`
+  if (diffDays < 365) return `${Math.floor(diffDays / 30)} months ago`
+  return `${Math.floor(diffDays / 365)} years ago`
+}
 </script>

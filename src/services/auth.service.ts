@@ -16,6 +16,12 @@ export interface RegisterData {
   businessName: string
 }
 
+export interface OtpVerifyData {
+  email: string
+  token: string
+  type: 'signup' | 'email'
+}
+
 export const authService = {
   async login(credentials: LoginCredentials): Promise<{ user: User | null; session: Session }> {
     const { data, error } = await supabase.auth.signInWithPassword(credentials)
@@ -27,21 +33,64 @@ export const authService = {
     return { user: data.user, session: data.session }
   },
 
+  /**
+   * Register a new user with email/password
+   * Supabase will send an OTP code to the email for verification
+   */
   async register(data: RegisterData): Promise<{ user: User | null }> {
     const { data: signUpData, error } = await supabase.auth.signUp({
       email: data.email,
       password: data.password,
+      options: {
+        data: {
+          full_name: data.businessName,
+        },
+        // Don't auto-confirm, require email verification
+        emailRedirectTo: undefined,
+      },
     })
 
     if (error) {
       throw new Error(error.message)
     }
 
-    // After successful registration, we need to create a merchant record
-    // This would typically be done on the backend after authentication
-    console.log('User registered:', signUpData)
-
     return { user: signUpData.user }
+  },
+
+  /**
+   * Verify OTP code sent to email
+   * Used for signup verification and email change verification
+   */
+  async verifyOtp(
+    email: string,
+    token: string,
+    type: 'signup' | 'email' = 'signup',
+  ): Promise<{ user: User | null; session: Session | null }> {
+    const { data, error } = await supabase.auth.verifyOtp({
+      email,
+      token,
+      type,
+    })
+
+    if (error) {
+      throw new Error(error.message)
+    }
+
+    return { user: data.user, session: data.session }
+  },
+
+  /**
+   * Resend OTP code to email
+   */
+  async resendOtp(email: string): Promise<void> {
+    const { error } = await supabase.auth.resend({
+      type: 'signup',
+      email,
+    })
+
+    if (error) {
+      throw new Error(error.message)
+    }
   },
 
   async logout(): Promise<void> {

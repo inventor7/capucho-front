@@ -17,9 +17,32 @@
         </CardHeader>
         <CardContent>
           <form @submit.prevent="handleSubmit" class="space-y-6">
+            <!-- Organization -->
+            <div class="space-y-2">
+              <Label for="organization">Organization</Label>
+              <Select v-model="form.organization_id" :disabled="isLoading || isLoadingOrgs">
+                <SelectTrigger>
+                  <SelectValue
+                    :placeholder="isLoadingOrgs ? 'Loading...' : 'Select organization'"
+                  />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem v-for="org in organizations" :key="org.id" :value="org.id">
+                    {{ org.name }}
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <!-- App Name -->
+            <div class="space-y-2">
+              <Label for="name">App Name</Label>
+              <Input id="name" v-model="form.name" placeholder="My App" :disabled="isLoading" />
+            </div>
+
             <!-- App ID -->
             <div class="space-y-2">
-              <Label for="app_id">App ID</Label>
+              <Label for="app_id">App ID (Bundle Identifier)</Label>
               <Input
                 id="app_id"
                 v-model="form.app_id"
@@ -31,10 +54,19 @@
               </p>
             </div>
 
-            <!-- App Name -->
+            <!-- Platform -->
             <div class="space-y-2">
-              <Label for="name">App Name</Label>
-              <Input id="name" v-model="form.name" placeholder="My App" :disabled="isLoading" />
+              <Label for="platform">Platform</Label>
+              <Select v-model="form.platform" :disabled="isLoading">
+                <SelectTrigger>
+                  <SelectValue placeholder="Select platform" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="ios">iOS</SelectItem>
+                  <SelectItem value="android">Android</SelectItem>
+                  <SelectItem value="all">All Platforms</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
             <!-- Icon URL (optional) -->
@@ -59,7 +91,7 @@
                 Cancel
               </Button>
               <Button type="submit" :disabled="isLoading || !isValid">
-                <Loader2 v-if="isLoading" class="mr-2 h-4 w-4 animate-spin" />
+                <ILucideLoader2 v-if="isLoading" class="mr-2 h-4 w-4 animate-spin" />
                 Create App
               </Button>
             </div>
@@ -71,8 +103,9 @@
 </template>
 
 <script setup lang="ts">
-import { Loader2 } from 'lucide-vue-next'
 import { useCreateAppMutation } from '@/modules/apps/composables/useAppsQuery'
+import { useOrganizationsQuery } from '@/modules/organizations/composables/useOrganizationsQuery'
+import { useAppStore } from '@/stores/app.store'
 import { useQueryClient } from '@tanstack/vue-query'
 
 definePage({
@@ -83,20 +116,29 @@ definePage({
   },
 })
 
-const router = useRouter()
-const queryClient = useQueryClient()
-
 const form = ref({
-  app_id: '',
+  organization_id: '',
   name: '',
+  app_id: '',
+  platform: 'all' as 'ios' | 'android' | 'all',
   icon_url: '',
 })
+
+const router = useRouter()
+const queryClient = useQueryClient()
+const appStore = useAppStore()
+
+const { data: organizations, isLoading: isLoadingOrgs } = useOrganizationsQuery()
 
 const error = ref<string | null>(null)
 const isLoading = ref(false)
 
 const isValid = computed(() => {
-  return form.value.app_id.length > 0 && form.value.name.length > 0
+  return (
+    form.value.organization_id.length > 0 &&
+    form.value.name.length > 0 &&
+    form.value.app_id.length > 0
+  )
 })
 
 const createMutation = useCreateAppMutation()
@@ -108,17 +150,22 @@ const handleSubmit = async () => {
   isLoading.value = true
 
   try {
-    await createMutation.mutateAsync({
-      app_id: form.value.app_id,
+    const newApp = await createMutation.mutateAsync({
+      organization_id: form.value.organization_id,
       name: form.value.name,
+      app_id: form.value.app_id,
+      platform: form.value.platform,
       icon_url: form.value.icon_url || undefined,
     })
 
     // Invalidate apps query to refetch
     await queryClient.invalidateQueries({ queryKey: ['apps'] })
 
-    // Navigate to apps list
-    router.push('/apps')
+    // Set as active app
+    appStore.setActiveApp(newApp)
+
+    // Navigate to dashboard
+    router.push('/dashboard')
   } catch (err: any) {
     error.value = err.message || 'Failed to create app'
   } finally {

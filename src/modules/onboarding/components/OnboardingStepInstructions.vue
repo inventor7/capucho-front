@@ -3,7 +3,7 @@
     <div class="space-y-2 text-center">
       <h1 class="text-3xl font-bold tracking-tight">Integration Guide</h1>
       <p class="text-muted-foreground">
-        Follow these steps to integrate Capgo into your {{ store.platform }} app.
+        Follow these steps to integrate Capgo into your {{ store.currentApp?.name }} app.
       </p>
     </div>
 
@@ -49,7 +49,7 @@
           <div class="space-y-2">
             <h3 class="font-medium">Bundle & Upload</h3>
             <div class="bg-black/90 text-white rounded-md p-3 font-mono text-xs text-left">
-              <code>npx @capgo/cli upload -a {{ store.appName }} -c Production</code>
+              <code>npx @capgo/cli upload -a {{ store.currentApp?.name }} -c Production</code>
             </div>
             <p class="text-sm text-muted-foreground">
               This will build your app and upload it to the Production channel.

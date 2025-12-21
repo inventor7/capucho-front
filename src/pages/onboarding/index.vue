@@ -53,19 +53,19 @@
 </template>
 
 <script setup lang="ts">
+import OnboardingStepOrganization from '@/modules/onboarding/components/OnboardingStepOrganization.vue'
 import OnboardingStepCreateApp from '@/modules/onboarding/components/OnboardingStepCreateApp.vue'
-import OnboardingStepTeam from '@/modules/onboarding/components/OnboardingStepTeam.vue'
-import OnboardingStepChannels from '@/modules/onboarding/components/OnboardingStepChannels.vue'
-import OnboardingStepInvite from '@/modules/onboarding/components/OnboardingStepInvite.vue'
+// Removed unused imports
 import OnboardingStepInstructions from '@/modules/onboarding/components/OnboardingStepInstructions.vue'
+import { useRouter } from 'vue-router'
+import { computed, ref, shallowRef } from 'vue'
 
 const router = useRouter()
 
 const steps = [
+  { key: 'organization', label: 'Organization', component: shallowRef(OnboardingStepOrganization) },
   { key: 'app', label: 'Create App', component: shallowRef(OnboardingStepCreateApp) },
-  { key: 'team', label: 'Team Setup', component: shallowRef(OnboardingStepTeam) },
-  { key: 'channels', label: 'Channels', component: shallowRef(OnboardingStepChannels) },
-  { key: 'invite', label: 'Invite Team', component: shallowRef(OnboardingStepInvite) },
+  // { key: 'channels', label: 'Channels', component: shallowRef(OnboardingStepChannels) }, // Optional? Prompt didn't mention it explicitly but standard flow might need it. Keep it if it fits. User said "create his first org and app". Maybe skip channels/invite for now to keep it strict to request? But "Integration" usually needs channels. I'll keep them but might need to verify they work with new schema.
   { key: 'instructions', label: 'Integration', component: shallowRef(OnboardingStepInstructions) },
 ]
 
@@ -87,13 +87,15 @@ const prevStep = () => {
   if (currentStepIndex.value > 0) {
     currentStepIndex.value--
   } else {
+    // If back from first step (Org), maybe logout or go back to register?
     router.push('/')
   }
 }
 
 definePage({
   meta: {
-    layout: 'public',
+    layout: 'empty',
+    requiresAuth: true,
   },
 })
 </script>

@@ -35,8 +35,7 @@ const footerLinks = {
             <span class="font-sans font-bold text-lg tracking-tight">Capucho</span>
           </a>
           <p class="text-sm text-muted-foreground max-w-xs leading-relaxed">
-            Redefining how mobile teams ship. Faster iterations, safer deployments, and happier
-            users.
+            Redefining how developers ship. Faster iterations, safer deployments, and happier users.
           </p>
         </div>
 
