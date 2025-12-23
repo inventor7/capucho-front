@@ -5,7 +5,9 @@
       :data="items"
       :config="tableConfig"
       :filters="tableFilters"
+      :is-loading="isLoading"
       @row-click="handleRowClick"
+      @refresh="$emit('refresh')"
     />
 
     <ChannelsDeleteDialog
@@ -23,12 +25,14 @@ import { channelsColumns } from './ChannelsTable/channels.columns'
 import ChannelsDeleteDialog from './ChannelsTable/ChannelsDeleteDialog.vue'
 import type { Channel } from '../types/channels.types'
 
-const { items } = defineProps<{
+const { items, isLoading } = defineProps<{
   items: Channel[]
+  isLoading?: boolean
 }>()
 
 const emit = defineEmits<{
   (e: 'deleteItem', id: string): void
+  (e: 'refresh'): void
 }>()
 
 const selectedItems = ref<Channel[]>([])

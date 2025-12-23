@@ -1,6 +1,11 @@
 <template>
   <div class="space-y-4">
-    <UpdatesBundlesTableDataTableToolbar :table="table" :state="tableState" />
+    <UpdatesBundlesTableDataTableToolbar
+      :table="table"
+      :state="tableState"
+      :is-loading="isLoading"
+      @click:refresh="$emit('refresh')"
+    />
 
     <div
       :class="[
@@ -565,7 +570,7 @@ import {
   useVueTable,
 } from '@tanstack/vue-table'
 import { useVirtualizer } from '@tanstack/vue-virtual'
-import { usUpdatesBundleseDataTable } from '@/modules/updates-bundles/composables/useUpdatesBundlesDataTable'
+import { useUpdatesBundlesDataTable } from '@/modules/updates-bundles/composables/useUpdatesBundlesDataTable'
 
 const rankItem = (rowValue: any, value: string) => {
   const passed = String(rowValue).toLowerCase().includes(value.toLowerCase())
@@ -575,6 +580,8 @@ const rankItem = (rowValue: any, value: string) => {
 interface DataTableProps {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  meta?: Record<string, any>
+  isLoading?: boolean
 }
 
 const props = defineProps<DataTableProps>()
@@ -582,9 +589,10 @@ const props = defineProps<DataTableProps>()
 const emit = defineEmits<{
   (e: 'selectionChange', selection: TData[]): void
   (e: 'rowClick', row: TData): void
+  (e: 'refresh'): void
 }>()
 
-const tableState = usUpdatesBundleseDataTable()
+const tableState = useUpdatesBundlesDataTable()
 const sidebarExpanded = ref(true)
 
 onMounted(() => {
@@ -619,6 +627,9 @@ const table = useVueTable({
   },
   get columns() {
     return props.columns
+  },
+  get meta() {
+    return props.meta
   },
 
   // Core

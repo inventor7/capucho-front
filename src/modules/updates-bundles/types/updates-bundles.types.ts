@@ -12,6 +12,7 @@ export interface Bundle {
   created_by?: string
   min_native_version?: number // Minimum native build version required
   release_notes?: string
+  is_active_for?: string[]
 }
 
 export interface NativeUpdate {
@@ -28,6 +29,7 @@ export interface NativeUpdate {
   created_by?: string
   file_size_bytes?: number
   release_notes?: string
+  is_active_for?: string[]
 }
 
 export interface UpdateOrBundle {
@@ -47,6 +49,9 @@ export interface UpdateOrBundle {
   file_size_bytes?: number // Only for native updates
   release_notes?: string
   min_native_version?: number // Only for OTA bundles
+  app_id: string
+  app_bundle_id?: string
+  is_active_for?: string[]
 }
 
 export type BulkEditData = {

@@ -81,6 +81,17 @@
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+
+        <Button
+          variant="outline"
+          size="sm"
+          class="h-8 text-[#EAB308] border-[#EAB308]/20 hover:bg-[#EAB308]/10 hover:text-[#CA8A04] transition-colors"
+          :disabled="isLoading"
+          @click="$emit('click:refresh')"
+        >
+          <ILucideRefreshCw class="h-4 w-4 mr-2" :class="{ 'animate-spin': isLoading }" />
+          Refresh
+        </Button>
       </div>
     </div>
 
@@ -145,9 +156,14 @@ import { Globe, Smartphone } from 'lucide-vue-next'
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
   state: any
+  isLoading?: boolean
 }
 
 const props = defineProps<DataTableToolbarProps<any>>()
+
+defineEmits<{
+  (e: 'click:refresh'): void
+}>()
 
 // Check if any filters are applied
 const isFiltered = computed(() => {

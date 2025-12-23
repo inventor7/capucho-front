@@ -16,12 +16,8 @@ export interface Organization {
 export type OrganizationRole = 'owner' | 'admin' | 'member'
 export type AppRole = 'admin' | 'developer' | 'tester' | 'viewer'
 
-export interface OrganizationMember {
-  id: string
-  organization_id: string
-  user_id: string
-  role: OrganizationRole
-  created_at: string
+export interface DynamicAppConfig {
+  [key: string]: any
 }
 
 export interface App {
@@ -38,6 +34,16 @@ export interface App {
   icon_url?: string
   total_devices?: number
   total_bundles?: number
+  config?: DynamicAppConfig
+}
+
+export interface OrganizationMember {
+  id: string
+  organization_id: string
+  user_id: string
+  role: OrganizationRole
+  created_at: string
+  users?: User
 }
 
 export interface AppPermission {
@@ -46,4 +52,5 @@ export interface AppPermission {
   user_id: string
   role: AppRole
   created_at: string
+  users?: User
 }

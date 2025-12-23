@@ -40,8 +40,10 @@
         <DevicesTable
           v-if="viewMode === 'list'"
           :items="devices || []"
+          :is-loading="isFetching"
           @delete-item="handleDelete"
           @update-channel="handleUpdateChannel"
+          @refresh="refetch"
         />
         <DevicesMap v-else :items="devices || []" />
       </Transition>
@@ -63,7 +65,7 @@ definePage({
   },
 })
 
-const { data: devices, isLoading, error, refetch } = useDevicesQuery()
+const { data: devices, isLoading, isFetching, error, refetch } = useDevicesQuery()
 const deleteMutation = useDeleteDeviceMutation()
 const updateChannelMutation = useUpdateDeviceChannelMutation()
 

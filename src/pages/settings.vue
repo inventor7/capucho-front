@@ -105,13 +105,14 @@
 import { useAuthStore } from '@/stores/auth.store'
 import { useAppStore } from '@/stores/app.store'
 import { storeToRefs } from 'pinia'
-import { User, Settings2, Users, KeyRound } from 'lucide-vue-next'
+import { User, Settings2, Users, KeyRound, Database } from 'lucide-vue-next'
 
 // Import Components
 import SettingsAccount from '@/components/settings/SettingsAccount.vue'
 import SettingsApp from '@/components/settings/SettingsApp.vue'
 import SettingsMembers from '@/components/settings/SettingsMembers.vue'
 import SettingsApiKeys from '@/components/settings/SettingsApiKeys.vue'
+import SettingsConfig from '@/components/settings/SettingsConfig.vue'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -140,6 +141,7 @@ const accountTabs = [
 
 const appTabs = [
   { id: 'general', label: 'General', icon: Settings2, component: SettingsApp },
+  { id: 'config', label: 'Configuration', icon: Database, component: SettingsConfig },
   { id: 'members', label: 'Members', icon: Users, component: SettingsMembers },
 ]
 

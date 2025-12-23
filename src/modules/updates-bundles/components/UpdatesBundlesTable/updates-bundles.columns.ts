@@ -14,6 +14,7 @@ import {
   ChevronUp,
   ChevronDown,
   Globe,
+  Zap,
 } from 'lucide-vue-next'
 import UpdatesBundlesTableDataTableColumnHeader from './DataTable/UpdatesBundlesTableDataTableColumnHeader.vue'
 
@@ -56,7 +57,7 @@ export const updatesBundlesColumns: ColumnDef<UpdateOrBundle>[] = [
   {
     accessorKey: 'type',
     header: ({ column }) => h(UpdatesBundlesTableDataTableColumnHeader, { column, title: 'Type' }),
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
       const type = row.original.type
       return h(
         Badge,
@@ -68,28 +69,51 @@ export const updatesBundlesColumns: ColumnDef<UpdateOrBundle>[] = [
     },
     enableSorting: true,
     enableHiding: true,
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
-    },
-    size: 80,
     meta: {
       filterVariant: 'select',
       faceted: true,
     },
   },
-
+  // App ID Column
+  {
+    accessorKey: 'app_bundle_id',
+    header: ({ column }) =>
+      h(UpdatesBundlesTableDataTableColumnHeader, { column, title: 'Bundle ID' }),
+    cell: ({ row, table }) => {
+      const appId = (row.original as any).app_bundle_id
+      return h(
+        'div',
+        { class: 'font-mono text-[10px] text-muted-foreground' },
+        appId || row.original.app_id,
+      )
+    },
+    enableSorting: true,
+    enableHiding: true,
+    size: 150,
+  },
   // Version Column
   {
     accessorKey: 'version_name',
     header: ({ column }) =>
       h(UpdatesBundlesTableDataTableColumnHeader, { column, title: 'Version' }),
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
       const type = row.original.type
       return h('div', { class: 'flex items-center' }, [
         h(type === 'native' ? Smartphone : Globe, {
           class: `w-5 h-5 mr-2`,
         }),
         h('span', { class: 'font-medium' }, row.original.version_name),
+        ...(row.original.is_active_for || []).map((channel) =>
+          h(
+            Badge,
+            {
+              variant: 'outline',
+              class:
+                'ml-2 text-[10px] uppercase h-5 px-1.5 bg-green-50 text-green-700 border-green-200 font-bold',
+            },
+            () => `Latest on ${channel}`,
+          ),
+        ),
       ])
     },
     enableSorting: true,
@@ -104,7 +128,7 @@ export const updatesBundlesColumns: ColumnDef<UpdateOrBundle>[] = [
   {
     accessorKey: 'version_code',
     header: ({ column }) => h(UpdatesBundlesTableDataTableColumnHeader, { column, title: 'Code' }),
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
       const versionCode = row.original.version_code
       return h('div', { class: 'font-mono' }, versionCode ? versionCode.toString() : '—')
     },
@@ -123,7 +147,7 @@ export const updatesBundlesColumns: ColumnDef<UpdateOrBundle>[] = [
     accessorKey: 'min_native_version',
     header: ({ column }) =>
       h(UpdatesBundlesTableDataTableColumnHeader, { column, title: 'Min Native' }),
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
       const minNative = row.original.min_native_version
       if (!minNative || row.original.type === 'native') {
         return h('div', { class: 'text-muted-foreground' }, '—')
@@ -144,7 +168,7 @@ export const updatesBundlesColumns: ColumnDef<UpdateOrBundle>[] = [
     accessorKey: 'platform',
     header: ({ column }) =>
       h(UpdatesBundlesTableDataTableColumnHeader, { column, title: 'Platform' }),
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
       const platform = row.getValue('platform') as string
       const platfroms: Record<string, any> = {
         android: StreamlineLogosAndroidLogoBlock,
@@ -178,7 +202,7 @@ export const updatesBundlesColumns: ColumnDef<UpdateOrBundle>[] = [
     accessorKey: 'channel',
     header: ({ column }) =>
       h(UpdatesBundlesTableDataTableColumnHeader, { column, title: 'Channel' }),
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
       const channel = row.original.channel
       const variantMap: Record<string, any> = {
         stable: 'default',
@@ -211,7 +235,7 @@ export const updatesBundlesColumns: ColumnDef<UpdateOrBundle>[] = [
   {
     accessorKey: 'file_size_bytes',
     header: ({ column }) => h(UpdatesBundlesTableDataTableColumnHeader, { column, title: 'Size' }),
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
       const fileSize = row.original.file_size_bytes
       if (!fileSize) return h('div', '—')
 
@@ -242,7 +266,7 @@ export const updatesBundlesColumns: ColumnDef<UpdateOrBundle>[] = [
   {
     accessorKey: 'created_at',
     header: ({ column }) => h(UpdatesBundlesTableDataTableColumnHeader, { column, title: 'Date' }),
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
       const date = new Date(row.original.created_at)
       return h('div', {}, date.toLocaleDateString())
     },
@@ -257,7 +281,7 @@ export const updatesBundlesColumns: ColumnDef<UpdateOrBundle>[] = [
     accessorKey: 'active',
     header: ({ column }) =>
       h(UpdatesBundlesTableDataTableColumnHeader, { column, title: 'Status' }),
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
       const active = row.original.active
       return h(
         Badge,
@@ -285,7 +309,7 @@ export const updatesBundlesColumns: ColumnDef<UpdateOrBundle>[] = [
     accessorKey: 'required',
     header: ({ column }) =>
       h(UpdatesBundlesTableDataTableColumnHeader, { column, title: 'Required' }),
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
       const required = row.original.required
       return h(
         Badge,
@@ -312,7 +336,7 @@ export const updatesBundlesColumns: ColumnDef<UpdateOrBundle>[] = [
   {
     id: 'actions',
     header: '',
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
       const item = row.original
       const router = useRouter()
 
@@ -330,6 +354,23 @@ export const updatesBundlesColumns: ColumnDef<UpdateOrBundle>[] = [
             },
           },
           () => h(row.getIsPinned() ? PinOff : Pin, { class: 'h-4 w-4' }),
+        ),
+
+        h(
+          Button,
+          {
+            variant: 'ghost',
+            size: 'icon',
+            class: 'h-8 w-8 text-yellow-500 hover:text-yellow-600',
+            onClick: (e: Event) => {
+              e.stopPropagation()
+              const meta = table.options.meta as any
+              if (meta?.triggerPromote) {
+                meta.triggerPromote(item.id)
+              }
+            },
+          },
+          () => h(Zap, { class: 'h-4 w-4' }),
         ),
 
         // Dropdown menu

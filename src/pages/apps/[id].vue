@@ -300,7 +300,7 @@
           <Card>
             <CardHeader>
               <CardTitle>General Settings</CardTitle>
-              <CardDescription>Update your app configuration.</CardDescription>
+              <CardDescription>Update your app metadata.</CardDescription>
             </CardHeader>
             <CardContent class="space-y-6">
               <div class="grid gap-4 max-w-2xl">
@@ -310,12 +310,12 @@
                 </div>
                 <div class="space-y-2">
                   <Label for="app_bundle_id">App ID / Bundle ID</Label>
-                  <div class="flex flex-col gap-1">
-                    <Input id="app_bundle_id" v-model="editForm.app_id" class="font-mono" />
-                    <p class="text-[10px] text-muted-foreground italic">
-                      Warning: Changing this will require updating your capacitor.config.ts!
-                    </p>
-                  </div>
+                  <Input
+                    id="app_bundle_id"
+                    v-model="editForm.app_id"
+                    disabled
+                    class="font-mono bg-muted"
+                  />
                 </div>
                 <div class="space-y-2">
                   <Label for="app_icon">Icon URL</Label>
@@ -428,6 +428,7 @@ const editForm = ref({
   app_id: '',
   icon_url: '',
   platform: 'all' as any,
+  config: {} as any,
 })
 
 // Update form when app data loads
@@ -440,6 +441,7 @@ watch(
         app_id: newApp.app_id,
         icon_url: newApp.icon_url || '',
         platform: newApp.platform || 'all',
+        config: newApp.config || {},
       }
       fetchTeamData()
     }

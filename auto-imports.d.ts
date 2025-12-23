@@ -142,6 +142,8 @@ declare global {
   const SIDEBAR_WIDTH: typeof import('./src/components/ui/sidebar/utils').SIDEBAR_WIDTH
   const SIDEBAR_WIDTH_ICON: typeof import('./src/components/ui/sidebar/utils').SIDEBAR_WIDTH_ICON
   const SIDEBAR_WIDTH_MOBILE: typeof import('./src/components/ui/sidebar/utils').SIDEBAR_WIDTH_MOBILE
+  const ScrollArea: typeof import('./src/components/ui/scroll-area/index').ScrollArea
+  const ScrollBar: typeof import('./src/components/ui/scroll-area/index').ScrollBar
   const ScrollStackItem: typeof import('./src/components/vuebits/ScrollStack.vue').ScrollStackItem
   const Select: typeof import('./src/components/ui/select/index').Select
   const SelectContent: typeof import('./src/components/ui/select/index').SelectContent
@@ -418,6 +420,7 @@ declare global {
   const useBreakpoints: typeof import('@vueuse/core').useBreakpoints
   const useBroadcastChannel: typeof import('@vueuse/core').useBroadcastChannel
   const useBrowserLocation: typeof import('@vueuse/core').useBrowserLocation
+  const useBulkCreateEnvVarsMutation: typeof import('./src/modules/settings/composables/useEnvVarsQuery').useBulkCreateEnvVarsMutation
   const useBundleQuery: typeof import('./src/modules/updates-bundles/composables/useUpdatesBundlesQuery').useBundleQuery
   const useBundlesQuery: typeof import('./src/modules/updates-bundles/composables/useUpdatesBundlesQuery').useBundlesQuery
   const useCached: typeof import('@vueuse/core').useCached
@@ -442,6 +445,7 @@ declare global {
   const useCreateBundleMutation: typeof import('./src/modules/updates-bundles/composables/useUpdatesBundlesQuery').useCreateBundleMutation
   const useCreateChannelMutation: typeof import('./src/modules/channels/composables/useChannelsQuery').useCreateChannelMutation
   const useCreateConversationMutation: typeof import('./src/composables/api/conversations/useConversationsQuery').useCreateConversationMutation
+  const useCreateEnvVarMutation: typeof import('./src/modules/settings/composables/useEnvVarsQuery').useCreateEnvVarMutation
   const useCreateNativeUpdateFormDataMutation: typeof import('./src/modules/updates-bundles/composables/useUpdatesBundlesQuery').useCreateNativeUpdateFormDataMutation
   const useCreateNativeUpdateMutation: typeof import('./src/modules/updates-bundles/composables/useUpdatesBundlesQuery').useCreateNativeUpdateMutation
   const useCreateOrderMutation: typeof import('./src/composables/api/orders/useOrdersQuery').useCreateOrderMutation
@@ -466,6 +470,7 @@ declare global {
   const useDeleteChannelMutation: typeof import('./src/modules/channels/composables/useChannelsQuery').useDeleteChannelMutation
   const useDeleteConversationMutation: typeof import('./src/composables/api/conversations/useConversationsQuery').useDeleteConversationMutation
   const useDeleteDeviceMutation: typeof import('./src/modules/devices/composables/useDevicesQuery').useDeleteDeviceMutation
+  const useDeleteEnvVarMutation: typeof import('./src/modules/settings/composables/useEnvVarsQuery').useDeleteEnvVarMutation
   const useDeleteMessageMutation: typeof import('./src/composables/api/conversations/useMessagesQuery').useDeleteMessageMutation
   const useDeleteNativeUpdateMutation: typeof import('./src/modules/updates-bundles/composables/useUpdatesBundlesQuery').useDeleteNativeUpdateMutation
   const useDeleteOrderMutation: typeof import('./src/composables/api/orders/useOrdersQuery').useDeleteOrderMutation
@@ -486,6 +491,7 @@ declare global {
   const useElementHover: typeof import('@vueuse/core').useElementHover
   const useElementSize: typeof import('@vueuse/core').useElementSize
   const useElementVisibility: typeof import('@vueuse/core').useElementVisibility
+  const useEnvVarsQuery: typeof import('./src/modules/settings/composables/useEnvVarsQuery').useEnvVarsQuery
   const useEventBus: typeof import('@vueuse/core').useEventBus
   const useEventListener: typeof import('@vueuse/core').useEventListener
   const useEventSource: typeof import('@vueuse/core').useEventSource
@@ -548,6 +554,7 @@ declare global {
   const usePageLeave: typeof import('@vueuse/core').usePageLeave
   const useParallax: typeof import('@vueuse/core').useParallax
   const useParentElement: typeof import('@vueuse/core').useParentElement
+  const useParseEnvContentMutation: typeof import('./src/modules/settings/composables/useEnvVarsQuery').useParseEnvContentMutation
   const usePerformanceObserver: typeof import('@vueuse/core').usePerformanceObserver
   const usePermission: typeof import('@vueuse/core').usePermission
   const usePointer: typeof import('@vueuse/core').usePointer
@@ -564,10 +571,12 @@ declare global {
   const useProductsQuery: typeof import('./src/composables/api/products/useProductsQuery').useProductsQuery
   const useProductsStore: typeof import('./src/stores/products.store').useProductsStore
   const useProductsTable: typeof import('./src/modules/products/composables/useProductsTable').useProductsTable
+  const usePromoteBundleMutation: typeof import('./src/modules/updates-bundles/composables/useUpdatesBundlesQuery').usePromoteBundleMutation
   const useRafFn: typeof import('@vueuse/core').useRafFn
   const useRefHistory: typeof import('@vueuse/core').useRefHistory
   const useRegisterMutation: typeof import('./src/composables/api/auth/useAuthQuery').useRegisterMutation
   const useResizeObserver: typeof import('@vueuse/core').useResizeObserver
+  const useRevealSecretMutation: typeof import('./src/modules/settings/composables/useEnvVarsQuery').useRevealSecretMutation
   const useRoute: typeof import('vue-router').useRoute
   const useRouter: typeof import('vue-router').useRouter
   const useSSRWidth: typeof import('@vueuse/core').useSSRWidth
@@ -618,11 +627,13 @@ declare global {
   const useUpdateChannelMutation: typeof import('./src/modules/channels/composables/useChannelsQuery').useUpdateChannelMutation
   const useUpdateConversationMutation: typeof import('./src/composables/api/conversations/useConversationsQuery').useUpdateConversationMutation
   const useUpdateDeviceChannelMutation: typeof import('./src/modules/devices/composables/useDevicesQuery').useUpdateDeviceChannelMutation
+  const useUpdateEnvVarMutation: typeof import('./src/modules/settings/composables/useEnvVarsQuery').useUpdateEnvVarMutation
   const useUpdateLogsQuery: typeof import('./src/modules/update-logs/composables/useUpdateLogsQuery').useUpdateLogsQuery
   const useUpdateMessageMutation: typeof import('./src/composables/api/conversations/useMessagesQuery').useUpdateMessageMutation
   const useUpdateNativeUpdateMutation: typeof import('./src/modules/updates-bundles/composables/useUpdatesBundlesQuery').useUpdateNativeUpdateMutation
   const useUpdateOrderMutation: typeof import('./src/composables/api/orders/useOrdersQuery').useUpdateOrderMutation
   const useUpdateProductMutation: typeof import('./src/composables/api/products/useProductsQuery').useUpdateProductMutation
+  const useUpdatesBundlesDataTable: typeof import('./src/modules/updates-bundles/composables/useUpdatesBundlesDataTable').useUpdatesBundlesDataTable
   const useUpdatesBundlesQuery: typeof import('./src/modules/updates-bundles/composables/useUpdatesBundlesQuery').useUpdatesBundlesQuery
   const useUpdatesBundlesStore: typeof import('./src/modules/updates-bundles/stores/updates-bundles.store').useUpdatesBundlesStore
   const useUrlSearchParams: typeof import('@vueuse/core').useUrlSearchParams
@@ -675,7 +686,7 @@ declare global {
   export type { CreateOrganizationDto } from './src/services/organization.service'
   import('./src/services/organization.service')
   // @ts-ignore
-  export type { User, Organization, OrganizationRole, AppRole, OrganizationMember, AppPermission } from './src/types/models'
+  export type { User, Organization, OrganizationRole, AppRole, DynamicAppConfig, OrganizationMember, AppPermission } from './src/types/models'
   import('./src/types/models')
   // @ts-ignore
   export type { QueryError } from './src/composables/api/error/query-error-handler'
@@ -722,6 +733,9 @@ declare global {
   // @ts-ignore
   export type { Device } from './src/modules/devices/types/devices.types'
   import('./src/modules/devices/types/devices.types')
+  // @ts-ignore
+  export type { EnvVar, EnvVarCreateRequest, EnvVarBulkRequest, ParsedEnvContent } from './src/modules/settings/types/env-vars.types'
+  import('./src/modules/settings/types/env-vars.types')
   // @ts-ignore
   export type { DashboardStats, StatsDataPoint, DashboardStatsData } from './src/modules/statistics/types/statistics.types'
   import('./src/modules/statistics/types/statistics.types')
@@ -876,6 +890,8 @@ declare module 'vue' {
     readonly SIDEBAR_WIDTH: UnwrapRef<typeof import('./src/components/ui/sidebar/utils')['SIDEBAR_WIDTH']>
     readonly SIDEBAR_WIDTH_ICON: UnwrapRef<typeof import('./src/components/ui/sidebar/utils')['SIDEBAR_WIDTH_ICON']>
     readonly SIDEBAR_WIDTH_MOBILE: UnwrapRef<typeof import('./src/components/ui/sidebar/utils')['SIDEBAR_WIDTH_MOBILE']>
+    readonly ScrollArea: UnwrapRef<typeof import('./src/components/ui/scroll-area/index')['ScrollArea']>
+    readonly ScrollBar: UnwrapRef<typeof import('./src/components/ui/scroll-area/index')['ScrollBar']>
     readonly ScrollStackItem: UnwrapRef<typeof import('./src/components/vuebits/ScrollStack.vue')['ScrollStackItem']>
     readonly Select: UnwrapRef<typeof import('./src/components/ui/select/index')['Select']>
     readonly SelectContent: UnwrapRef<typeof import('./src/components/ui/select/index')['SelectContent']>
@@ -1112,7 +1128,6 @@ declare module 'vue' {
     readonly until: UnwrapRef<typeof import('@vueuse/core')['until']>
     readonly updatesBundlesColumns: UnwrapRef<typeof import('./src/modules/updates-bundles/components/UpdatesBundlesTable/updates-bundles.columns')['updatesBundlesColumns']>
     readonly updatesBundlesTableConfig: UnwrapRef<typeof import('./src/modules/updates-bundles/config/updatesbundlesetable.config')['updatesBundlesTableConfig']>
-    readonly usUpdatesBundleseDataTable: UnwrapRef<typeof import('./src/modules/updates-bundles/composables/useUpdatesBundlesDataTable')['usUpdatesBundleseDataTable']>
     readonly useActiveElement: UnwrapRef<typeof import('@vueuse/core')['useActiveElement']>
     readonly useAnimate: UnwrapRef<typeof import('@vueuse/core')['useAnimate']>
     readonly useApiFormDataMutation: UnwrapRef<typeof import('./src/composables/api/config/useApiFormDataMutation')['useApiFormDataMutation']>
@@ -1144,6 +1159,7 @@ declare module 'vue' {
     readonly useBreakpoints: UnwrapRef<typeof import('@vueuse/core')['useBreakpoints']>
     readonly useBroadcastChannel: UnwrapRef<typeof import('@vueuse/core')['useBroadcastChannel']>
     readonly useBrowserLocation: UnwrapRef<typeof import('@vueuse/core')['useBrowserLocation']>
+    readonly useBulkCreateEnvVarsMutation: UnwrapRef<typeof import('./src/modules/settings/composables/useEnvVarsQuery')['useBulkCreateEnvVarsMutation']>
     readonly useBundleQuery: UnwrapRef<typeof import('./src/modules/updates-bundles/composables/useUpdatesBundlesQuery')['useBundleQuery']>
     readonly useBundlesQuery: UnwrapRef<typeof import('./src/modules/updates-bundles/composables/useUpdatesBundlesQuery')['useBundlesQuery']>
     readonly useCached: UnwrapRef<typeof import('@vueuse/core')['useCached']>
@@ -1164,6 +1180,7 @@ declare module 'vue' {
     readonly useCreateBundleFormDataMutation: UnwrapRef<typeof import('./src/modules/updates-bundles/composables/useUpdatesBundlesQuery')['useCreateBundleFormDataMutation']>
     readonly useCreateBundleMutation: UnwrapRef<typeof import('./src/modules/updates-bundles/composables/useUpdatesBundlesQuery')['useCreateBundleMutation']>
     readonly useCreateChannelMutation: UnwrapRef<typeof import('./src/modules/channels/composables/useChannelsQuery')['useCreateChannelMutation']>
+    readonly useCreateEnvVarMutation: UnwrapRef<typeof import('./src/modules/settings/composables/useEnvVarsQuery')['useCreateEnvVarMutation']>
     readonly useCreateNativeUpdateFormDataMutation: UnwrapRef<typeof import('./src/modules/updates-bundles/composables/useUpdatesBundlesQuery')['useCreateNativeUpdateFormDataMutation']>
     readonly useCreateNativeUpdateMutation: UnwrapRef<typeof import('./src/modules/updates-bundles/composables/useUpdatesBundlesQuery')['useCreateNativeUpdateMutation']>
     readonly useCreateOrganizationMutation: UnwrapRef<typeof import('./src/modules/organizations/composables/useOrganizationsQuery')['useCreateOrganizationMutation']>
@@ -1184,6 +1201,7 @@ declare module 'vue' {
     readonly useDeleteBundleMutation: UnwrapRef<typeof import('./src/modules/updates-bundles/composables/useUpdatesBundlesQuery')['useDeleteBundleMutation']>
     readonly useDeleteChannelMutation: UnwrapRef<typeof import('./src/modules/channels/composables/useChannelsQuery')['useDeleteChannelMutation']>
     readonly useDeleteDeviceMutation: UnwrapRef<typeof import('./src/modules/devices/composables/useDevicesQuery')['useDeleteDeviceMutation']>
+    readonly useDeleteEnvVarMutation: UnwrapRef<typeof import('./src/modules/settings/composables/useEnvVarsQuery')['useDeleteEnvVarMutation']>
     readonly useDeleteNativeUpdateMutation: UnwrapRef<typeof import('./src/modules/updates-bundles/composables/useUpdatesBundlesQuery')['useDeleteNativeUpdateMutation']>
     readonly useDeviceMotion: UnwrapRef<typeof import('@vueuse/core')['useDeviceMotion']>
     readonly useDeviceOrientation: UnwrapRef<typeof import('@vueuse/core')['useDeviceOrientation']>
@@ -1201,6 +1219,7 @@ declare module 'vue' {
     readonly useElementHover: UnwrapRef<typeof import('@vueuse/core')['useElementHover']>
     readonly useElementSize: UnwrapRef<typeof import('@vueuse/core')['useElementSize']>
     readonly useElementVisibility: UnwrapRef<typeof import('@vueuse/core')['useElementVisibility']>
+    readonly useEnvVarsQuery: UnwrapRef<typeof import('./src/modules/settings/composables/useEnvVarsQuery')['useEnvVarsQuery']>
     readonly useEventBus: UnwrapRef<typeof import('@vueuse/core')['useEventBus']>
     readonly useEventListener: UnwrapRef<typeof import('@vueuse/core')['useEventListener']>
     readonly useEventSource: UnwrapRef<typeof import('@vueuse/core')['useEventSource']>
@@ -1259,6 +1278,7 @@ declare module 'vue' {
     readonly usePageLeave: UnwrapRef<typeof import('@vueuse/core')['usePageLeave']>
     readonly useParallax: UnwrapRef<typeof import('@vueuse/core')['useParallax']>
     readonly useParentElement: UnwrapRef<typeof import('@vueuse/core')['useParentElement']>
+    readonly useParseEnvContentMutation: UnwrapRef<typeof import('./src/modules/settings/composables/useEnvVarsQuery')['useParseEnvContentMutation']>
     readonly usePerformanceObserver: UnwrapRef<typeof import('@vueuse/core')['usePerformanceObserver']>
     readonly usePermission: UnwrapRef<typeof import('@vueuse/core')['usePermission']>
     readonly usePointer: UnwrapRef<typeof import('@vueuse/core')['usePointer']>
@@ -1271,10 +1291,12 @@ declare module 'vue' {
     readonly usePreferredReducedMotion: UnwrapRef<typeof import('@vueuse/core')['usePreferredReducedMotion']>
     readonly usePreferredReducedTransparency: UnwrapRef<typeof import('@vueuse/core')['usePreferredReducedTransparency']>
     readonly usePrevious: UnwrapRef<typeof import('@vueuse/core')['usePrevious']>
+    readonly usePromoteBundleMutation: UnwrapRef<typeof import('./src/modules/updates-bundles/composables/useUpdatesBundlesQuery')['usePromoteBundleMutation']>
     readonly useRafFn: UnwrapRef<typeof import('@vueuse/core')['useRafFn']>
     readonly useRefHistory: UnwrapRef<typeof import('@vueuse/core')['useRefHistory']>
     readonly useRegisterMutation: UnwrapRef<typeof import('./src/composables/api/auth/useAuthQuery')['useRegisterMutation']>
     readonly useResizeObserver: UnwrapRef<typeof import('@vueuse/core')['useResizeObserver']>
+    readonly useRevealSecretMutation: UnwrapRef<typeof import('./src/modules/settings/composables/useEnvVarsQuery')['useRevealSecretMutation']>
     readonly useRoute: UnwrapRef<typeof import('vue-router')['useRoute']>
     readonly useRouter: UnwrapRef<typeof import('vue-router')['useRouter']>
     readonly useSSRWidth: UnwrapRef<typeof import('@vueuse/core')['useSSRWidth']>
@@ -1319,8 +1341,10 @@ declare module 'vue' {
     readonly useUpdateBundleMutation: UnwrapRef<typeof import('./src/modules/updates-bundles/composables/useUpdatesBundlesQuery')['useUpdateBundleMutation']>
     readonly useUpdateChannelMutation: UnwrapRef<typeof import('./src/modules/channels/composables/useChannelsQuery')['useUpdateChannelMutation']>
     readonly useUpdateDeviceChannelMutation: UnwrapRef<typeof import('./src/modules/devices/composables/useDevicesQuery')['useUpdateDeviceChannelMutation']>
+    readonly useUpdateEnvVarMutation: UnwrapRef<typeof import('./src/modules/settings/composables/useEnvVarsQuery')['useUpdateEnvVarMutation']>
     readonly useUpdateLogsQuery: UnwrapRef<typeof import('./src/modules/update-logs/composables/useUpdateLogsQuery')['useUpdateLogsQuery']>
     readonly useUpdateNativeUpdateMutation: UnwrapRef<typeof import('./src/modules/updates-bundles/composables/useUpdatesBundlesQuery')['useUpdateNativeUpdateMutation']>
+    readonly useUpdatesBundlesDataTable: UnwrapRef<typeof import('./src/modules/updates-bundles/composables/useUpdatesBundlesDataTable')['useUpdatesBundlesDataTable']>
     readonly useUpdatesBundlesQuery: UnwrapRef<typeof import('./src/modules/updates-bundles/composables/useUpdatesBundlesQuery')['useUpdatesBundlesQuery']>
     readonly useUpdatesBundlesStore: UnwrapRef<typeof import('./src/modules/updates-bundles/stores/updates-bundles.store')['useUpdatesBundlesStore']>
     readonly useUrlSearchParams: UnwrapRef<typeof import('@vueuse/core')['useUrlSearchParams']>

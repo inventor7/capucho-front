@@ -11,7 +11,7 @@
       <NavMain :items="appSettings" group-name="Settings" />
     </SidebarContent>
     <SidebarFooter>
-      <NavUser :user="navUser" />
+      <NavUser :user-data="navUser" />
     </SidebarFooter>
   </Sidebar>
 </template>
@@ -43,7 +43,7 @@ const { user } = storeToRefs(authStore)
 const navUser = computed(() => ({
   name: user.value?.email?.split('@')[0] ?? '',
   email: user.value?.email ?? '',
-  avatar: '/avatars/shadcn.jpg',
+  avatar: user.value?.user_metadata?.avatar_url ?? '/palceholder.png',
 }))
 
 const appDashboard = [

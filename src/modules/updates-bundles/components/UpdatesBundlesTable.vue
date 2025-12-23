@@ -11,8 +11,11 @@
       ref="dataTableRef"
       :columns="updatesBundlesColumns"
       :data="items"
+      :meta="{ triggerPromote }"
+      :is-loading="isLoading"
       @selection-change="handleSelectionChange"
       @row-click="handleRowClick"
+      @refresh="$emit('refresh')"
     />
 
     <UpdatesBundlesTableDeleteDialog
@@ -29,6 +32,12 @@
       :selected-items="selectedItems"
       @click:bulk-edit-confirm="handleBulkEditConfirm"
     />
+
+    <UpdatesBundlesTablePromoteDialog
+      v-model:promote-dialog-open="promoteDialogOpen"
+      :item-id="itemToPromote"
+      @promoted="handlePromoted"
+    />
   </div>
 </template>
 
@@ -42,6 +51,8 @@ const selectedItems = ref<UpdateOrBundle[]>([])
 const deleteDialogOpen = ref(false)
 const bulkEditDialogOpen = ref(false)
 const itemToDelete = ref<string | null>(null)
+const itemToPromote = ref<string | null>(null)
+const promoteDialogOpen = ref(false)
 const isDeleting = ref(false)
 
 const bulkEditData = ref({
@@ -52,11 +63,13 @@ const bulkEditData = ref({
 
 const props = defineProps<{
   items: UpdateOrBundle[]
+  isLoading?: boolean
 }>()
 
 const emit = defineEmits<{
   (e: 'deleteItem', id: string, type: 'bundle' | 'native'): void
   (e: 'updateItem', item: UpdateOrBundle): void
+  (e: 'refresh'): void
 }>()
 
 const handleSelectionChange = (selection: UpdateOrBundle[]) => {
@@ -144,11 +157,24 @@ const clearSelection = () => {
   selectedItems.value = []
 }
 
+const handlePromoted = () => {
+  clearSelection()
+  emit('updateItem', {} as any)
+}
+
+const triggerDelete = (itemId: string) => {
+  itemToDelete.value = itemId
+  deleteDialogOpen.value = true
+}
+
+const triggerPromote = (itemId: string) => {
+  itemToPromote.value = itemId
+  promoteDialogOpen.value = true
+}
+
 defineExpose({
-  triggerDelete: (itemId: string) => {
-    itemToDelete.value = itemId
-    deleteDialogOpen.value = true
-  },
+  triggerDelete,
+  triggerPromote,
   clearSelection,
 })
 </script>

@@ -1,5 +1,5 @@
 import { apiClient } from './api.client'
-import type { App } from '@/types/models'
+import type { App, DynamicAppConfig } from '@/types/models'
 
 export interface CreateAppDto {
   name: string
@@ -7,6 +7,7 @@ export interface CreateAppDto {
   organization_id: string
   platform?: 'ios' | 'android' | 'web' | 'all'
   icon_url?: string
+  config?: DynamicAppConfig
 }
 
 export const appService = {

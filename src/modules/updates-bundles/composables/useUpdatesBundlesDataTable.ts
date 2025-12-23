@@ -27,9 +27,9 @@ export interface UpdatesBundlesDataTableConfig {
   enableVirtualization?: boolean
 }
 
-export const usUpdatesBundleseDataTable = <TData>(config: UpdatesBundlesDataTableConfig = {}) => {
+export const useUpdatesBundlesDataTable = <TData>(config: UpdatesBundlesDataTableConfig = {}) => {
   // Core state
-  const sorting = ref<SortingState>([])
+  const sorting = ref<SortingState>([{ id: 'created_at', desc: true }])
   const columnFilters = ref<ColumnFiltersState>([])
   const globalFilter = ref('')
   const columnVisibility = ref<VisibilityState>({})
@@ -176,7 +176,7 @@ export const usUpdatesBundleseDataTable = <TData>(config: UpdatesBundlesDataTabl
   }
 
   const resetSorting = () => {
-    sorting.value = []
+    sorting.value = [{ id: 'created_at', desc: true }]
   }
 
   const resetSelection = () => {

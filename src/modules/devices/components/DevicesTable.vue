@@ -12,8 +12,10 @@
       ref="dataTableRef"
       :columns="devicesColumns"
       :data="items"
+      :is-loading="isLoading"
       @selection-change="handleSelectionChange"
       @row-click="handleRowClick"
+      @refresh="$emit('refresh')"
     />
 
     <DevicesDeleteDialog
@@ -42,12 +44,14 @@ const deleteDialogOpen = ref(false)
 const itemToDelete = ref<string | null>(null)
 const isDeleting = ref(false)
 
-const { items } = defineProps<{
+const { items, isLoading } = defineProps<{
   items: Device[]
+  isLoading?: boolean
 }>()
 
 const emit = defineEmits<{
   (e: 'deleteItem', id: string): void
+  (e: 'refresh'): void
 }>()
 
 const handleSelectionChange = (selection: Device[]) => {

@@ -61,6 +61,17 @@
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+
+        <Button
+          variant="outline"
+          size="sm"
+          class="h-8 text-[#EAB308] border-[#EAB308]/20 hover:bg-[#EAB308]/10 hover:text-[#CA8A04] transition-colors"
+          :disabled="isLoading"
+          @click="$emit('click:refresh')"
+        >
+          <ILucideRefreshCw class="h-4 w-4 mr-2" :class="{ 'animate-spin': isLoading }" />
+          Refresh
+        </Button>
       </div>
     </div>
   </div>
@@ -85,12 +96,14 @@ const props = defineProps<{
   config?: DataTableConfig
   filters?: DataTableFilterDef[]
   density?: 'compact' | 'normal' | 'comfortable'
+  isLoading?: boolean
 }>()
 
 const emit = defineEmits<{
   (e: 'toggleDensity'): void
   (e: 'resetFilters'): void
   (e: 'export', format: 'csv' | 'excel' | 'json'): void
+  (e: 'click:refresh'): void
 }>()
 
 const isFiltered = computed(() => {

@@ -1,6 +1,11 @@
 <template>
   <div class="space-y-4">
-    <DevicesTableDataTableToolbar :table="table" :state="tableState" />
+    <DevicesTableDataTableToolbar
+      :table="table"
+      :state="tableState"
+      :is-loading="isLoading"
+      @click:refresh="$emit('refresh')"
+    />
 
     <div
       :class="[
@@ -167,11 +172,13 @@ import { Car } from 'lucide-vue-next'
 const props = defineProps<{
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  isLoading?: boolean
 }>()
 
 const emit = defineEmits<{
   (e: 'selectionChange', selection: TData[]): void
   (e: 'rowClick', row: TData): void
+  (e: 'refresh'): void
 }>()
 
 const tableState = useDevicesDataTable()

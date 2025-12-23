@@ -19,6 +19,10 @@
           <ILucideDownload class="mr-2 h-4 w-4" />
           Download
         </Button>
+        <Button variant="outline" size="sm" @click="promoteDialogOpen = true">
+          <ILucideZap class="mr-2 h-4 w-4 text-yellow-500" />
+          Promote
+        </Button>
         <Button variant="outline" size="sm">
           <ILucidePencil class="mr-2 h-4 w-4" />
           Edit
@@ -243,20 +247,30 @@
         </Card>
       </div>
     </div>
+
+    <!-- Promote Dialog -->
+    <UpdatesBundlesTablePromoteDialog
+      v-model:promote-dialog-open="promoteDialogOpen"
+      :item-id="String(item?.id)"
+      @promoted="handlePromoted"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { toast } from 'vue-sonner'
+import UpdatesBundlesTablePromoteDialog from '@/modules/updates-bundles/components/UpdatesBundlesTable/UpdatesBundlesTablePromoteDialog.vue'
 
 const { id: updateId } = defineProps<{
   id: string
 }>()
 
+const promoteDialogOpen = ref(false)
+
 const route = useRoute()
 const type = route.query.type as 'bundle' | 'native' | undefined
 
-const { data: items } = useUpdatesBundlesQuery()
+const { data: items, refetch } = useUpdatesBundlesQuery()
 const { data: devices } = useDevicesQuery()
 
 const item = computed(() => {
@@ -356,6 +370,11 @@ const configSnippet = computed(() => {
 const copyConfig = () => {
   navigator.clipboard.writeText(configSnippet.value)
   toast.success('Configuration copied to clipboard')
+}
+
+const handlePromoted = async () => {
+  promoteDialogOpen.value = false
+  await refetch()
 }
 
 definePage({

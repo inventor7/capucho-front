@@ -18,10 +18,17 @@ import {
 import { useOrganizationStore } from '@/stores/organization.store'
 import type { Organization } from '@/types/models'
 
+const props = defineProps<{
+  userData: {
+    name: string
+    email: string
+    avatar: string
+  }
+}>()
+
 const router = useRouter()
 const authStore = useAuthStore()
 const orgStore = useOrganizationStore()
-const { user } = storeToRefs(authStore)
 const { isMobile } = useSidebar()
 
 const { data: organizations } = useOrganizationsQuery()
@@ -58,9 +65,9 @@ const handleLogout = async () => {
             class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
           >
             <Avatar class="h-8 w-8 rounded-lg">
-              <AvatarImage :src="user?.user_metadata?.avatar_url" :alt="user?.email || ''" />
+              <AvatarImage :src="props.userData.avatar" :alt="props.userData.name" />
               <AvatarFallback class="rounded-lg text-primary-foreground font-bold">
-                {{ user?.email?.charAt(0).toUpperCase() }}
+                {{ props.userData.email.charAt(0).toUpperCase() }}
               </AvatarFallback>
             </Avatar>
             <div class="grid flex-1 text-left text-sm leading-tight">
@@ -81,14 +88,16 @@ const handleLogout = async () => {
           <DropdownMenuLabel class="p-0 font-normal">
             <div class="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
               <Avatar class="h-8 w-8 rounded-lg">
-                <AvatarImage :src="user?.user_metadata?.avatar_url" :alt="user?.email || ''" />
+                <AvatarImage src="/placeholder.png" :alt="props.userData.name" />
                 <AvatarFallback class="rounded-lg">
-                  {{ user?.email?.charAt(0).toUpperCase() }}
+                  {{ props.userData.email.charAt(0).toUpperCase() }}
                 </AvatarFallback>
               </Avatar>
               <div class="grid flex-1 text-left text-sm leading-tight">
-                <span class="truncate font-semibold">{{ user?.email?.split('@')[0] }}</span>
-                <span class="truncate text-xs text-muted-foreground">{{ user?.email }}</span>
+                <span class="truncate font-semibold">{{ props.userData.name }}</span>
+                <span class="truncate text-xs text-muted-foreground">{{
+                  props.userData.email
+                }}</span>
               </div>
             </div>
           </DropdownMenuLabel>

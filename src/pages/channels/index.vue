@@ -10,7 +10,13 @@
       Failed to load channels: {{ error.message }}
     </div>
 
-    <ChannelsTable v-else :items="channels || []" @delete-item="handleDelete" />
+    <ChannelsTable
+      v-else
+      :items="channels || []"
+      :is-loading="isFetching"
+      @delete-item="handleDelete"
+      @refresh="refetch"
+    />
   </div>
 </template>
 
@@ -24,7 +30,7 @@ definePage({
   },
 })
 
-const { data: channels, isLoading, error, refetch } = useChannelsQuery()
+const { data: channels, isLoading, isFetching, error, refetch } = useChannelsQuery()
 const deleteMutation = useDeleteChannelMutation()
 
 const handleDelete = async (id: string) => {

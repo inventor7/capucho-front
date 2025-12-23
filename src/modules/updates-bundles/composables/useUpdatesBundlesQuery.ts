@@ -135,6 +135,31 @@ export function useDeleteBundleMutation(
   })
 }
 
+export function usePromoteBundleMutation(
+  options?: Omit<
+    UseMutationOptions<
+      Bundle,
+      Error,
+      { id: string | number; target_app_id: string; target_channel: string }
+    >,
+    'mutationFn'
+  >,
+) {
+  return useApiMutation<
+    Bundle,
+    { id: string | number; target_app_id: string; target_channel: string }
+  >('', 'post', {
+    mutationFn: async ({ id, target_app_id, target_channel }) => {
+      const response = await apiClient.post(`/dashboard/bundles/${id}/promote`, {
+        target_app_id,
+        target_channel,
+      })
+      return response.data
+    },
+    ...options,
+  })
+}
+
 // Native updates queries
 export function useNativeUpdatesQuery(
   options?: Omit<UseQueryOptions<NativeUpdate[], Error>, 'queryKey' | 'queryFn'>,

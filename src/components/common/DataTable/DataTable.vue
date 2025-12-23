@@ -5,8 +5,10 @@
       :config="mergedConfig"
       :filters="filters"
       :density="state.density.value"
+      :loading="props.loading"
       @toggle-density="state.toggleDensity"
       @reset-filters="state.resetFilters"
+      @click:refresh="$emit('refresh')"
       @export="
         (format) =>
           $emit(
@@ -132,6 +134,7 @@ const emit = defineEmits<{
   (e: 'bulkActions:delete', value: TData[]): void
   (e: 'bulkActions:export', value: TData[], format?: string): void
   (e: 'row-click', value: TData): void
+  (e: 'refresh'): void
 }>()
 
 const { table, config: mergedConfig, state } = useDataTable(props, emit)
